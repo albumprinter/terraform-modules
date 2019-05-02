@@ -1,4 +1,4 @@
-variable "app_name" {
+variable "name" {
   description = "(Required) Name used for entities like lambda, IAM role etc. For consistency with suffixes, use CamelCase."
 }
 

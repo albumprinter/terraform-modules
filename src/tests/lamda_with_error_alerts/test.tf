@@ -31,7 +31,7 @@ resource "aws_s3_bucket_object" "bucket" {
 
 module "test" {
   source         = "../../modules/patterns/lambda/with_error_alerts"
-  app_name       = "${local.app_name}"
+  name           = "${local.app_name}"
   emails         = ["salavat.galiamov@albelli.com"]
   tags           = "${module.label.tags}"
   s3_bucket_name = "${local.bucket}"
