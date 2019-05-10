@@ -18,7 +18,7 @@ module "label" {
 }
 
 module "test" {
-  source = "./modules/resources/sqs/fifo"
+  source = "./modules/patterns/sqs_with_dlq"
   name   = "${module.label.id}"
   tags   = "${module.label.tags}"
 
