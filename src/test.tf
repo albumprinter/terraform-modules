@@ -18,13 +18,9 @@ module "label" {
 }
 
 module "test" {
-  source         = "./modules/resources/lambda/plain"
-  name           = "${module.label.id}"
-  role_arn       = "arn:aws:iam::884394444434:role/backoffice_lambda"
-  handler        = "test"
-  s3_bucket_name = "cct-lambda-storage"
-  s3_bucket_path = "dotnet_sample.zip"
-  tags           = "${module.label.tags}"
+  source = "./modules/resources/sqs/fifo"
+  name   = "${module.label.id}"
+  tags   = "${module.label.tags}"
 
   providers = {
     aws = "aws"
