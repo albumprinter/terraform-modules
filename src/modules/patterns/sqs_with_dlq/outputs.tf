@@ -1,4 +1,4 @@
-output "id" {
+output "url" {
   value       = "${module.queue.id}"
   description = "The URL for the created SQS queue."
 }
@@ -8,7 +8,7 @@ output "arn" {
   description = "The ARN of the SQS queue"
 }
 
-output "dlq_id" {
+output "dlq_url" {
   value       = "${module.dlq.id}"
   description = "The URL for the created DLQ SQS queue."
 }

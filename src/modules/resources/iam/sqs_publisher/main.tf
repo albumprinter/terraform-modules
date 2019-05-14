@@ -1,12 +1,12 @@
 data "aws_iam_policy_document" "app" {
   statement {
     actions = [
-      "sqs:DeleteMessage",
-      "sqs:ChangeMessageVisibility",
-      "sqs:DeleteMessageBatch",
+      "sqs:GetQueueUrl",
+      "sqs:GetQueueAttributes",
+      "sqs:ListQueueTags",
+      "sqs:ListDeadLetterSourceQueues",
       "sqs:SendMessageBatch",
       "sqs:SendMessage",
-      "sqs:ChangeMessageVisibilityBatch",
       "sqs:SetQueueAttributes",
     ]
 
