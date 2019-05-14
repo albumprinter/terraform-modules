@@ -1,13 +1,11 @@
 data "aws_iam_policy_document" "app" {
   statement {
     actions = [
-      "sqs:DeleteMessage",
-      "sqs:ChangeMessageVisibility",
-      "sqs:DeleteMessageBatch",
-      "sqs:SendMessageBatch",
-      "sqs:SendMessage",
-      "sqs:ChangeMessageVisibilityBatch",
-      "sqs:SetQueueAttributes",
+      "sqs:GetQueueUrl",
+      "sqs:ListDeadLetterSourceQueues",
+      "sqs:ReceiveMessage",
+      "sqs:GetQueueAttributes",
+      "sqs:ListQueueTags",
     ]
 
     resources = ["${var.queues_arn}"]
@@ -16,7 +14,7 @@ data "aws_iam_policy_document" "app" {
 
 resource "aws_iam_policy" "app" {
   name        = "${var.policy_name}"
-  description = "Allows write messages to specific queue(s)"
+  description = "Allows read messages from specific queue(s)"
   policy      = "${data.aws_iam_policy_document.app.json}"
 }
 
