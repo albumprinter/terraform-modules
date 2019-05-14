@@ -6,6 +6,7 @@ data "aws_iam_policy_document" "app" {
       "sqs:ReceiveMessage",
       "sqs:GetQueueAttributes",
       "sqs:ListQueueTags",
+      "sqs:DeleteMessage",
     ]
 
     resources = ["${var.queues_arn}"]
