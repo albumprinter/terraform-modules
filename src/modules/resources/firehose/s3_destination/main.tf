@@ -7,6 +7,7 @@ resource "aws_kinesis_firehose_delivery_stream" "app" {
     bucket_arn      = "${var.bucket_arn}"
     buffer_interval = "${var.buffer_interval_in_seconds}"
     buffer_size     = "${var.buffer_size_in_mb}"
-    tags            = "${var.tags}"
   }
+
+  tags = "${var.tags}"
 }
