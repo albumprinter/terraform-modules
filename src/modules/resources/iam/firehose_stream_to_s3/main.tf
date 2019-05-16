@@ -34,7 +34,7 @@ data "aws_iam_policy_document" "app" {
       "s3:PutObject",
     ]
 
-    resources = ["${module.array_transformation.concantanated_array}"]
+    resources = ["${module.array_transformation.concatenated_array}"]
   }
 }
 
