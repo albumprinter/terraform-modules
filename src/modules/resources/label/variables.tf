@@ -4,6 +4,7 @@ variable "application" {
 }
 
 variable "name" {
+  default     = ""
   description = "Component (or resource) name, e.g. `app`"
 }
 
