@@ -5,12 +5,11 @@ locals {
   tags = "${
       merge( 
         map(
-          "Service", "${var.service}",
-          "Environment", "${var.environment}",
-          "Cost Center", "${var.cost_center}",
-          "Application", "${var.application}",
-          "Team", "${var.team}",
-          "Name", "${var.name}"
+          "Domain", "${lower(var.domain)}",
+          "Environment", "${lower(var.environment)}",
+          "Cost Center", "${lower(var.cost_center)}",
+          "Application", "${lower(var.application)}",
+          "Team", "${lower(var.team)}"
         ), var.tags
       )
     }"
