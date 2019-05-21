@@ -5,7 +5,7 @@ variable "application" {
 
 variable "name" {
   default     = ""
-  description = "Component (or resource) name, e.g. `app`"
+  description = "Component (or resource) name, e.g. `app`. Not used in tags as it could re-write standard AWS tag."
 }
 
 variable "environment" {
