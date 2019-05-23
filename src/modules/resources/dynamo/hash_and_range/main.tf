@@ -18,9 +18,4 @@ resource "aws_dynamodb_table" "app" {
   ]
 
   tags = "${var.tags}"
-
-  # used for preventing accidental rename. It is still possible to remove resource - just remove module.
-  lifecycle {
-    prevent_destroy = true
-  }
 }
