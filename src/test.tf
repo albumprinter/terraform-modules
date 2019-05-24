@@ -19,7 +19,7 @@ module "label" {
 
 module "test" {
   source             = "./modules/patterns/lambda/with_cw_logs"
-  name               = "Data-Zendesk-Test-Customer-Sync"
+  name               = "${module.label.id_without_env}"
   handler            = "Connectors.Zendesk.Customer::Connectors.Zendesk.Customer.Function::FunctionHandler"
   s3_bucket_name     = "cct-artifacts-t"
   memory_size        = 512
