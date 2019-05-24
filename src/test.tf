@@ -17,17 +17,17 @@ module "label" {
   team        = "customer care technology"
 }
 
-module "test" {
-  source    = "./modules/resources/dynamo/hash_and_range"
-  name      = "${module.label.id}"
-  hash_key  = "Column1"
-  range_key = "Column2"
-  tags      = "${module.label.tags}"
+# module "test" {
+#   source    = "./modules/resources/dynamo/hash_and_range"
+#   name      = "${module.label.id}"
+#   hash_key  = "Column1"
+#   range_key = "Column2"
+#   tags      = "${module.label.tags}"
 
-  providers = {
-    aws = "aws"
-  }
-}
+#   providers = {
+#     aws = "aws"
+#   }
+# }
 
 output out1 {
   value = "${module.test.arn}"
