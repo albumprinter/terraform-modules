@@ -18,13 +18,14 @@ module "label" {
 }
 
 module "test" {
-  source             = "./modules/patterns/lambda/with_cw_logs"
-  name               = "${module.label.id_without_env}"
-  handler            = "Connectors.Zendesk.Customer::Connectors.Zendesk.Customer.Function::FunctionHandler"
-  s3_bucket_name     = "cct-artifacts-t"
-  memory_size        = 512
-  timeout            = 59
-  log_retention_days = 14
+  source              = "./modules/patterns/lambda/scheduled"
+  name                = "${module.label.id_without_env}"
+  handler             = "Connectors.Zendesk.Customer::Connectors.Zendesk.Customer.Function::FunctionHandler"
+  s3_bucket_name      = "cct-artifacts-t"
+  memory_size         = 512
+  timeout             = 59
+  log_retention_days  = 14
+  schedule_expression = "rate(1 minutes)"
 
   variables = {
     env1 = "var1"
