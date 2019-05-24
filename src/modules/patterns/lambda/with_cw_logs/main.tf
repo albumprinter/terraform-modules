@@ -64,5 +64,8 @@ module "lambda" {
   timeout        = "${var.timeout}"
   variables      = "${var.variables}"
   logs_arn       = "${aws_cloudwatch_log_group.app.arn}"
-  tags           = "${var.tags}"
+
+  max_concurrent_executions = "${var.max_concurrent_executions}"
+
+  tags = "${var.tags}"
 }

@@ -52,6 +52,11 @@ variable "logs_arn" {
   description = "Do not use this variable. It just for proper graph dependency."
 }
 
+variable "max_concurrent_executions" {
+  default     = -1
+  description = "The amount of reserved concurrent executions for this lambda function. A value of 0 disables lambda from being triggered and -1 removes any concurrency limitations."
+}
+
 variable "tags" {
   type    = "map"
   default = {}

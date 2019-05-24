@@ -49,6 +49,11 @@ variable "log_retention_days" {
   default     = "30"
 }
 
+variable "max_concurrent_executions" {
+  default     = -1
+  description = "The amount of reserved concurrent executions for this lambda function. A value of 0 disables lambda from being triggered and -1 removes any concurrency limitations."
+}
+
 variable "tags" {
   type    = "map"
   default = {}
