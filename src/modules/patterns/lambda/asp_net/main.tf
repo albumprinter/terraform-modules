@@ -22,6 +22,7 @@ module "api" {
 
   name              = "${var.name}"
   domain_name       = "${var.domain_name}"
+  zone_id           = "${var.zone_id}"
   certificate_arn   = "${var.certificate_arn}"
   lambda_invoke_arn = "${module.lambda.lambda_invoke_arn}"
 }

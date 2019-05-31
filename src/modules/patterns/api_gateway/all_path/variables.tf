@@ -8,6 +8,8 @@ variable "stage_name" {
 
 variable "domain_name" {}
 
+variable "zone_id" {}
+
 variable "certificate_arn" {}
 
 variable "lambda_invoke_arn" {}

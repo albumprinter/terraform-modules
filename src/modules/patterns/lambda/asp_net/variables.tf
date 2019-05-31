@@ -51,6 +51,8 @@ variable "log_retention_days" {
 
 variable "domain_name" {}
 
+variable "zone_id" {}
+
 variable "certificate_arn" {}
 
 variable "tags" {
