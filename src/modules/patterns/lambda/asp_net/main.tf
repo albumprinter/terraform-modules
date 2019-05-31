@@ -25,3 +25,16 @@ module "api" {
   domain_certificate = "${var.domain_certificate}"
   lambda_invoke_arn  = "${module.lambda.lambda_invoke_arn}"
 }
+
+resource "aws_lambda_permission" "app" {
+  depends_on = ["module.lambda"]
+
+  statement_id  = "AllowExecutionFromApiGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = "${var.name}"
+  principal     = "apigateway.amazonaws.com"
+
+  # The /*/* portion grants access from any method on any resource
+  # within the API Gateway "REST API".
+  source_arn = "${module.api.execution_arn}/*/*/*"
+}
