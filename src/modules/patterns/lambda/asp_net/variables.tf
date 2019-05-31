@@ -49,9 +49,9 @@ variable "log_retention_days" {
   default     = "30"
 }
 
-variable "domain_name" {}
+variable "sub_domain" {}
 
-variable "zone_id" {}
+variable "domain_certificate" {}
 
 variable "certificate_arn" {}
 

@@ -1,3 +1,8 @@
+locals {
+  domain_name = "${var.sub_domain}.${var.domain_certificate}"
+  zone_name   = "${var.domain_certificate}."
+}
+
 resource "aws_api_gateway_rest_api" "app" {
   name = "${var.name}"
 
@@ -7,13 +12,17 @@ resource "aws_api_gateway_rest_api" "app" {
 }
 
 resource "aws_api_gateway_domain_name" "app" {
-  domain_name = "${var.domain_name}"
+  domain_name = "${local.domain_name}"
 
   certificate_arn = "${var.certificate_arn}"
 }
 
+data "aws_route53_zone" "app" {
+  name = "${local.zone_name}."
+}
+
 resource "aws_route53_record" "custom_domain_dns_record" {
-  zone_id = "${var.zone_id}"
+  zone_id = "${aws_route53_zone.app.zone_id}"
   name    = "${aws_api_gateway_domain_name.app.domain_name}"
   type    = "A"
 

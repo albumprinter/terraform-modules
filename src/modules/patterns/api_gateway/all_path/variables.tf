@@ -6,9 +6,9 @@ variable "stage_name" {
   default = "Default"
 }
 
-variable "domain_name" {}
+variable "sub_domain" {}
 
-variable "zone_id" {}
+variable "domain_certificate" {}
 
 variable "certificate_arn" {}
 
