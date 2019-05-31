@@ -53,8 +53,6 @@ variable "sub_domain" {}
 
 variable "domain_certificate" {}
 
-variable "certificate_arn" {}
-
 variable "tags" {
   type    = "map"
   default = {}

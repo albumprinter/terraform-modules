@@ -1,6 +1,16 @@
-locals {
-  domain_name = "${var.sub_domain}.${var.domain_certificate}"
-  zone_name   = "${var.domain_certificate}."
+provider "aws" {
+  alias  = "us-east-1"
+  region = "us-east-1"
+}
+
+data "aws_acm_certificate" "app" {
+  provider = "aws.us-east-1"
+  domain   = "*.${var.domain_certificate}"
+  statuses = ["ISSUED"]
+}
+
+data "aws_route53_zone" "app" {
+  name = "${var.domain_certificate}."
 }
 
 resource "aws_api_gateway_rest_api" "app" {
@@ -12,13 +22,9 @@ resource "aws_api_gateway_rest_api" "app" {
 }
 
 resource "aws_api_gateway_domain_name" "app" {
-  domain_name = "${local.domain_name}"
+  domain_name = "${var.sub_domain}.${var.domain_certificate}"
 
-  certificate_arn = "${var.certificate_arn}"
-}
-
-data "aws_route53_zone" "app" {
-  name = "${local.zone_name}."
+  certificate_arn = "${data.aws_acm_certificate.app.arn}"
 }
 
 resource "aws_route53_record" "custom_domain_dns_record" {

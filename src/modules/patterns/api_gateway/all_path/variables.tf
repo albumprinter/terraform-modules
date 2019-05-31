@@ -10,6 +10,4 @@ variable "sub_domain" {}
 
 variable "domain_certificate" {}
 
-variable "certificate_arn" {}
-
 variable "lambda_invoke_arn" {}
