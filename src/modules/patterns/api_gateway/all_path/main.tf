@@ -22,7 +22,7 @@ data "aws_route53_zone" "app" {
 }
 
 resource "aws_route53_record" "custom_domain_dns_record" {
-  zone_id = "${aws_route53_zone.app.zone_id}"
+  zone_id = "${data.aws_route53_zone.app.zone_id}"
   name    = "${aws_api_gateway_domain_name.app.domain_name}"
   type    = "A"
 
