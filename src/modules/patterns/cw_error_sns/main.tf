@@ -23,9 +23,10 @@ module "log_group" {
 
 module "metric_filter" {
   source         = "../../resources/cw/metric_filter"
-  name           = "${var.app_name}-ErrorMetricFilter"
+  name           = "${var.app_name}-ErrorFilter"
   pattern        = "ERROR"
   log_group_name = "${module.log_group.name}"
+  depends_on      = ["${module.log_group.arn}"]
 }
 
 module "metric_alarm" {
