@@ -2,6 +2,10 @@ provider "aws" {
   region = "eu-west-1"
 }
 
+locals {
+  log_name = "test-cw-log"
+}
+
 module "label" {
   source      = "../../../modules/resources/label"
   application = "test-app"
@@ -12,12 +16,23 @@ module "label" {
   team        = "customer care technology"
 }
 
-module "test" {
+module log_group {
   source = "../../../modules/resources/cw/log_group"
-  name   = "test/cw-log"
+  name   = "${local.log_name}"
   tags   = "${module.label.tags}"
 }
 
+module filter {
+  source         = "../../../modules/resources/cw/metric_filter"
+  name           = "${local.log_name}-filter"
+  log_group_name = "${local.log_name}"
+  pattern        = "Error"
+}
+
 output "cw-log-arn" {
-  value = "${module.test.arn}"
+  value = "${module.log_group.arn}"
+}
+
+output "cw-metric-arn" {
+  value = "${module.filter.name}"
 }
