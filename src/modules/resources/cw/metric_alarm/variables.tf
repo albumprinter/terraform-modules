@@ -1,4 +1,4 @@
-variable "name" {
+variable "alarm_name" {
   description = "(Required) The descriptive name for the alarm. This name must be unique within the user's AWS account"
 }
 

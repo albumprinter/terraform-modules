@@ -10,7 +10,6 @@ module "error_topic" {
 
 module "email_subscriptions" {
   source        = "../../resources/sns/email_subscription"
-  depends_on    = ["module.error_topic"]
   sns_topic_arn = "${module.error_topic.arn}"
   emails        = "${var.emails}"
 }
@@ -26,7 +25,7 @@ module "metric_filter" {
   source         = "../../resources/cw/metric_filter"
   name           = "${var.app_name}-ErrorMetricFilter"
   pattern        = "ERROR"
-  log_group_name = "${local.log_group_name}"
+  log_group_name = "${module.log_group.name}"
 }
 
 module "metric_alarm" {
@@ -34,7 +33,7 @@ module "metric_alarm" {
   alarm_name          = "${var.app_name}-ErrorAlarm"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
-  metric_name         = "${var.app_name}-Error"
+  metric_name         = "${var.app_name}-ErrorMetric"
   period              = "3600"
   statistic           = "SampleCount"
   threshold           = "1"

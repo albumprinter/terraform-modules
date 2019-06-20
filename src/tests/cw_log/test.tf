@@ -7,7 +7,7 @@ locals {
 }
 
 module "label" {
-  source      = "../../../modules/resources/label"
+  source      = "../../modules/resources/label"
   application = "test-app"
   name        = "app"
   environment = "test"
@@ -17,20 +17,20 @@ module "label" {
 }
 
 module log_group {
-  source = "../../../modules/resources/cw/log_group"
+  source = "../../modules/resources/cw/log_group"
   name   = "${local.log_name}"
   tags   = "${module.label.tags}"
 }
 
 module filter {
-  source         = "../../../modules/resources/cw/metric_filter"
+  source         = "../../modules/resources/cw/metric_filter"
   name           = "${local.log_name}-filter"
   log_group_name = "${local.log_name}"
   pattern        = "Error"
 }
 
 module "alarm" {
-  source              = "../../../modules/resources/cw/metric_alarm"
+  source              = "../../modules/resources/cw/metric_alarm"
   name                = "${local.log_name}-alarm"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
