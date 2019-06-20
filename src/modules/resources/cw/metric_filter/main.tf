@@ -1,4 +1,12 @@
+resource "null_resource" "depends_on" {
+  triggers {
+    depends_on = "${join("", var.depends_on)}"
+  }
+}
+
 resource "aws_cloudwatch_log_metric_filter" "app" {
+  depends_on = ["null_resource.depends_on"]
+
   name           = "${var.name}"
   pattern        = "${var.pattern}"
   log_group_name = "${var.log_group_name}"

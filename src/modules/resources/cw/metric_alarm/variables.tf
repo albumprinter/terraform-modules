@@ -14,14 +14,13 @@ variable "threshold" {
   description = "(Required) The value against which the specified statistic is compared."
 }
 
+variable "metric_name" {
+  description = "(Required) The name for the alarm's associated metric."
+}
+
 variable "datapoints_to_alarm" {
   default     = 1
   description = "(Optional) The number of datapoints that must be breaching to trigger the alarm."
-}
-
-variable "metric_name" {
-  default     = ""
-  description = "(Optional) The name for the alarm's associated metric."
 }
 
 variable "namespace" {

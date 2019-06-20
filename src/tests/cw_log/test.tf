@@ -25,13 +25,14 @@ module log_group {
 module filter {
   source         = "../../modules/resources/cw/metric_filter"
   name           = "${local.log_name}-filter"
-  log_group_name = "${local.log_name}"
+  log_group_name = "${module.log_group.name}"
   pattern        = "Error"
+  depends_on     = ["${module.log_group.arn}"]
 }
 
 module "alarm" {
   source              = "../../modules/resources/cw/metric_alarm"
-  name                = "${local.log_name}-alarm"
+  alarm_name          = "${local.log_name}-alarm"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
   threshold           = "1"

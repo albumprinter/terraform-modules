@@ -24,3 +24,7 @@ variable "transformation_default_value" {
   default     = ""
   description = "(Optional) The value to emit when a filter pattern does not match a log event."
 }
+
+variable "depends_on" {
+  default = []
+}
