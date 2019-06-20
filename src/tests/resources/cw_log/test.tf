@@ -38,8 +38,6 @@ module "alarm" {
   metric_name         = "${local.log_name}-metric"
   statistic           = "SampleCount"
   period              = "3600"
-
-  # alarm_actions       = ["${aws_sns_topic.error_topic.arn}"]
 }
 
 output "cw-log-arn" {
