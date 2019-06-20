@@ -29,10 +29,27 @@ module filter {
   pattern        = "Error"
 }
 
+module "alarm" {
+  source              = "../../../modules/resources/cw/metric_alarm"
+  name                = "${local.log_name}-alarm"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "1"
+  threshold           = "1"
+  metric_name         = "${local.log_name}-metric"
+  statistic           = "SampleCount"
+  period              = "3600"
+
+  # alarm_actions       = ["${aws_sns_topic.error_topic.arn}"]
+}
+
 output "cw-log-arn" {
   value = "${module.log_group.arn}"
 }
 
 output "cw-metric-arn" {
   value = "${module.filter.name}"
+}
+
+output "cw-alarm-arn" {
+  value = "${module.alarm.arn}"
 }
