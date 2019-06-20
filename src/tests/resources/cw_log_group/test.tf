@@ -14,6 +14,10 @@ module "label" {
 
 module "test" {
   source = "../../../modules/resources/cw/log_group"
-  name   = "test-cw-log"
+  name   = "test/cw-log"
   tags   = "${module.label.tags}"
+}
+
+output "cw-log-arn" {
+  value = "${module.test.arn}"
 }

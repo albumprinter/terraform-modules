@@ -8,7 +8,7 @@ variable "tags" {
 }
 
 variable "retention_in_days" {
-  default     = -1
+  default     = 0 # Never Expire
   description = "(Optional) Specifies the number of days you want to retain log events in the specified log group."
 }
 
