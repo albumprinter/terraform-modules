@@ -1,10 +1,10 @@
 variable "sns_topic_arn" {
-  description = "(Requred) SNS topic to subscribe."
+  description = "(Required) SNS topic to subscribe."
 }
 
 variable "emails" {
   type        = "list"
-  description = "(Requred) Emails to notify."
+  description = "(Required) Emails to notify."
 }
 
 variable "region" {

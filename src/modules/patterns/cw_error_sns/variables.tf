@@ -1,14 +1,14 @@
 variable "app_name" {
-  description = "(Requred) Name used for entities like lambda, IAM role etc. For consistency with suffixes, use CamelCase."
+  description = "(Required) Name used for entities like lambda, IAM role etc. For consistency with suffixes, use CamelCase."
 }
 
 variable "log_group_prefix" {
-  description = "(Requred) Prefix for log group name."
+  description = "(Required) Prefix for log group name."
 }
 
 variable "emails" {
   type        = "list"
-  description = "(Requred) Emails for notification in case of errors"
+  description = "(Required) Emails for notification in case of errors"
 }
 
 variable "tags" {
