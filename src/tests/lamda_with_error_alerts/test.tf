@@ -17,10 +17,16 @@ module "label" {
   team        = "customer care technology"
 }
 
-resource "aws_s3_bucket_object" "examplebucket_object" {
+data "archive_file" "zip" {
+  type        = "zip"
+  source_file = "${path.module}/index.js"
+  output_path = "${path.module}/publish/index.zip"
+}
+
+resource "aws_s3_bucket_object" "bucket" {
   key    = "${local.app_name}"
   bucket = "${local.bucket}"
-  source = "index.js"
+  source = "${path.module}/publish/index.zip"
 }
 
 module "test" {
@@ -29,7 +35,8 @@ module "test" {
   emails         = ["salavat.galiamov@albelli.com"]
   tags           = "${module.label.tags}"
   s3_bucket_name = "${local.bucket}"
-  s3_bucket_path = "${local.app_name}"
+  s3_bucket_path = "${aws_s3_bucket_object.bucket.id}"
   handler        = "index.handler"
   runtime        = "nodejs10.x"
+  period         = 60
 }
