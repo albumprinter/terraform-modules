@@ -3,17 +3,54 @@ variable "app_name" {
 }
 
 variable "tags" {
-  type = "map"
+  type        = "map"
   description = "A mapping of tags to assign to the resource."
 }
 
-variable "log_group_prefix" {
-  description = "(Required) Prefix for log group name."
+variable "handler" {
+  description = "(Required) The function entrypoint in your code."
+}
+
+variable "s3_bucket_name" {
+  description = "(Required) Lambda source bucket (storage)"
 }
 
 variable "emails" {
   type        = "list"
   description = "(Required) Emails for notification in case of errors"
+}
+
+variable "s3_bucket_path" {
+  default     = ""
+  description = "(Optional) Path to artifact (zipped lambda)"
+}
+
+variable "runtime" {
+  default     = "dotnetcore2.1"
+  description = "(Optional) The identifier of the function's runtime."
+}
+
+variable "description" {
+  default     = ""
+  description = "(Optional) Lambda description"
+}
+
+variable "memory_size" {
+  default     = "512"
+  description = "(Optional) Amount of memory in MB your Lambda Function can use at runtime."
+}
+
+variable "timeout" {
+  default     = "30"
+  description = "(Optional) The amount of time your Lambda Function has to run in seconds."
+}
+
+variable "variables" {
+  type = "map"
+
+  default = {
+    ENCODING = "utf-8"
+  }
 }
 
 variable "comparison_operator" {
