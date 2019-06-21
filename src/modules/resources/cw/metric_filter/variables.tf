@@ -21,7 +21,7 @@ variable "transformation_value" {
 }
 
 variable "transformation_default_value" {
-  default     = ""
+  default     = "0"
   description = "(Optional) The value to emit when a filter pattern does not match a log event."
 }
 

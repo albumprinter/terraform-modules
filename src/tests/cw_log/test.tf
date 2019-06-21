@@ -44,7 +44,7 @@ output "cw-log-arn" {
   value = "${module.log_group.arn}"
 }
 
-output "cw-metric-arn" {
+output "cw-metric-name" {
   value = "${module.filter.name}"
 }
 
