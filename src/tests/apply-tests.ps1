@@ -1,11 +1,11 @@
 # To run specific test:
-# .\run-unit-tests.ps1 -f cw_error_sns\test.tf
+# .\apply-tests.ps1 -f .\cw_log\test.tf
 
 # To keep resources:
-# .\run-unit-tests.ps1 -f cw_error_sns\test.tf -k
+# .\apply-tests.ps1 -f .\cw_log\test.tf -k
 
 # To run all tests:
-# .\run-unit-tests.ps1
+# .\apply-tests.ps1
 
 param(
     [switch][Alias("k")]$keepResources,
