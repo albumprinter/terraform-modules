@@ -39,15 +39,3 @@ module "alarm" {
   threshold           = "1"
   alarm_actions       = []
 }
-
-output "cw-log-arn" {
-  value = "${module.log_group.arn}"
-}
-
-output "cw-metric-name" {
-  value = "${module.filter.name}"
-}
-
-output "cw-alarm-arn" {
-  value = "${module.alarm.arn}"
-}
