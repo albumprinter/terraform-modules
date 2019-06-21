@@ -26,7 +26,6 @@ module "metric_filter" {
   name           = "${var.app_name}-ErrorFilter"
   pattern        = "${var.pattern}"
   log_group_name = "${module.log_group.name}"
-  depends_on     = ["${module.log_group.arn}"]
 }
 
 module "metric_alarm" {

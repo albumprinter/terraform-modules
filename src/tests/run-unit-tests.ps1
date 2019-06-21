@@ -1,8 +1,8 @@
 # To run specific test:
-# .\run-unit-tests.ps1 -f _resources\sqs\sqs_with_dlq\test.tf
+# .\run-unit-tests.ps1 -f cw_error_sns\test.tf
 
 # To keep resources:
-# .\run-unit-tests.ps1 -f _resources\sqs\sqs_with_dlq\test.tf -k
+# .\run-unit-tests.ps1 -f cw_error_sns\test.tf -k
 
 # To run all tests:
 # .\run-unit-tests.ps1
