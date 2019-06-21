@@ -26,19 +26,18 @@ module filter {
   source         = "../../modules/resources/cw/metric_filter"
   name           = "${local.log_name}-filter"
   log_group_name = "${module.log_group.name}"
-  pattern        = "Error"
+  pattern        = "test pattern"
   depends_on     = ["${module.log_group.arn}"]
 }
 
 module "alarm" {
-  source              = "../../modules/resources/cw/metric_alarm"
+  source              = "../../modules/resources/cw/statistic_metric_alarm"
   alarm_name          = "${local.log_name}-alarm"
+  metric_name         = "${local.log_name}-metric"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
   threshold           = "1"
-  metric_name         = "${local.log_name}-metric"
-  statistic           = "SampleCount"
-  period              = "3600"
+  alarm_actions       = []
 }
 
 output "cw-log-arn" {

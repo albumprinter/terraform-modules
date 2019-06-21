@@ -18,6 +18,11 @@ variable "metric_name" {
   description = "(Required) The name for the alarm's associated metric."
 }
 
+variable "alarm_actions" {
+  type        = "list"
+  description = "(Required) The list of actions to execute when this alarm transitions into an ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN)."
+}
+
 variable "datapoints_to_alarm" {
   default     = 1
   description = "(Optional) The number of datapoints that must be breaching to trigger the alarm."
@@ -29,22 +34,16 @@ variable "namespace" {
 }
 
 variable "period" {
-  default     = 0
+  default     = 60
   description = "(Optional) The period in seconds over which the specified statistic is applied."
 }
 
 variable "statistic" {
-  default     = ""
+  default     = "SampleCount"
   description = "(Optional) The statistic to apply to the alarm's associated metric. Either of the following is supported: SampleCount, Average, Sum, Minimum, Maximum."
 }
 
 variable "alarm_description" {
   default     = ""
   description = "(Optional) The description for the alarm."
-}
-
-variable "alarm_actions" {
-  default     = []
-  type        = "list"
-  description = "(Optional) The list of actions to execute when this alarm transitions into an ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN)."
 }

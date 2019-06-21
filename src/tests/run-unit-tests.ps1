@@ -37,7 +37,7 @@ if ($testFile) {
     Test $testFile
 }
 else {
-    Get-ChildItem ".\*\test.tf" -Recurse | ForEach-Object {
+    Get-ChildItem ".\*\test.tf" -ErrorAction SilentlyContinue -Recurse | ForEach-Object {
         Test $_
     }
 }

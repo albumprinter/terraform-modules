@@ -30,7 +30,7 @@ module "metric_filter" {
 }
 
 module "metric_alarm" {
-  source              = "../../resources/cw/metric_alarm"
+  source              = "../../resources/cw/statistic_metric_alarm"
   alarm_name          = "${var.app_name}-ErrorAlarm"
   comparison_operator = "${var.comparison_operator}"
   evaluation_periods  = "${var.evaluation_periods}"
