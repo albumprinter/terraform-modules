@@ -4,7 +4,7 @@ locals {
 
 module "error_topic" {
   source = "../../resources/sns/plain"
-  name   = "${var.app_name}-Errors"
+  name   = "${var.app_name}-LogErrors"
   tags   = "${var.tags}"
 }
 
@@ -24,20 +24,20 @@ module "log_group" {
 module "metric_filter" {
   source         = "../../resources/cw/metric_filter"
   name           = "${var.app_name}-ErrorFilter"
-  pattern        = "ERROR"
+  pattern        = "${var.pattern}"
   log_group_name = "${module.log_group.name}"
-  depends_on      = ["${module.log_group.arn}"]
+  depends_on     = ["${module.log_group.arn}"]
 }
 
 module "metric_alarm" {
   source              = "../../resources/cw/metric_alarm"
   alarm_name          = "${var.app_name}-ErrorAlarm"
-  comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = "1"
+  comparison_operator = "${var.comparison_operator}"
+  evaluation_periods  = "${var.evaluation_periods}"
   metric_name         = "${var.app_name}-ErrorMetric"
-  period              = "3600"
-  statistic           = "SampleCount"
-  threshold           = "1"
+  period              = "${var.period}"
+  statistic           = "${var.statistic}"
+  threshold           = "${var.threshold}"
   alarm_description   = "This metric alerts on ${var.app_name} errors"
   alarm_actions       = ["${module.error_topic.arn}"]
 }

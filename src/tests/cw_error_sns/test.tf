@@ -15,7 +15,7 @@ module "label" {
 module "test" {
   source           = "../../modules/patterns/cw_error_sns"
   app_name         = "test-app"
-  log_group_prefix = "/test/"
+  log_group_prefix = "/aws/lambda/"
   emails           = ["salavat.galiamov@albelli.com"]
   tags             = "${module.label.tags}"
 }
