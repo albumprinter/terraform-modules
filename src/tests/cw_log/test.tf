@@ -27,7 +27,6 @@ module filter {
   name           = "${local.log_name}-filter"
   log_group_name = "${module.log_group.name}"
   pattern        = "test pattern"
-  depends_on     = ["${module.log_group.arn}"]
 }
 
 module "alarm" {
