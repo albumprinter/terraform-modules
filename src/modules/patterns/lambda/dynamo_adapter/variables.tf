@@ -25,8 +25,8 @@ variable "emails" {
 }
 
 variable "batch_size" {
-  default     = 100
-  description = "(Optional) The largest number of records that Lambda will retrieve from your event source at the time of invocation. Defaults to 100 for DynamoDB and Kinesis, 10 for SQS."
+  default     = 1
+  description = "(Optional) The largest number of records that Lambda will retrieve from your event source at the time of invocation."
 }
 
 variable "description" {
