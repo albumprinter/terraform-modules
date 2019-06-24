@@ -16,7 +16,31 @@ resource "aws_s3_bucket_object" "zip" {
   tags   = "${var.tags}"
 }
 
-resource "aws_lambda_event_source_mapping" "event_source" {
+data "aws_iam_policy_document" "app" {
+  statement {
+    actions = [
+      "kinesis:GetRecords",
+      "kinesis:GetShardIterator",
+      "kinesis:DescribeStream",
+      "kinesis:ListStreams",
+    ]
+
+    resources = ["${var.event_source_arn}"]
+  }
+}
+
+resource "aws_iam_policy" "app" {
+  name        = "${var.name}"
+  description = "IAM policy for streaming to DynamoDb adapter ${var.name}."
+  policy      = "${data.aws_iam_policy_document.app.json}"
+}
+
+resource "aws_iam_policy_attachment" "app" {
+  name       = "${var.name}"
+  policy_arn = "${aws_iam_policy.app.arn}"
+}
+
+resource "aws_lambda_event_source_mapping" "app" {
   function_name     = "${module.app.lambda_arn}"
   event_source_arn  = "${var.event_source_arn}"
   batch_size        = "${var.batch_size}"

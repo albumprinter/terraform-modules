@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 locals {
-  name = "test_lambda_dynamo_sns_${uuid()}"
+  name = "test_dynamo_to_sqs"
 }
 
 module "label" {
@@ -40,8 +40,7 @@ module "sns_to_sqs" {
 }
 
 module "test" {
-  source = "../../modules/patterns/lambda/dynamo_adapter"
-
+  source           = "../../modules/patterns/lambda/dynamo_adapter"
   name             = "${local.name}"
   event_source_arn = "${aws_dynamodb_table.table.stream_arn}"
   topic_arn        = "${module.sns_to_sqs.sns_arn}"
