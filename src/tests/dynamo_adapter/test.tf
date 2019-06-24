@@ -3,12 +3,12 @@ provider "aws" {
 }
 
 locals {
-  app_name = "test_lambda_dynamo_sns_${uuid()}"
+  name = "test_lambda_dynamo_sns_${uuid()}"
 }
 
 module "label" {
   source      = "../../modules/resources/label"
-  application = "${local.app_name}"
+  application = "${local.name}"
   name        = "app"
   environment = "test"
   domain      = "ci-cd platform"
@@ -16,7 +16,7 @@ module "label" {
   team        = "customer care technology"
 }
 
-resource "aws_dynamodb_table" "test_table" {
+resource "aws_dynamodb_table" "table" {
   name             = "${local.name}"
   hash_key         = "Id"
   billing_mode     = "PROVISIONED"
@@ -33,14 +33,19 @@ resource "aws_dynamodb_table" "test_table" {
   ]
 }
 
-module "test_sns2sqs" {
+module "sns_to_sqs" {
   source = "../../modules/patterns/sns_to_sqs_with_dlq"
-  name   = "${local.app_name}"
+  name   = "${local.name}"
+  tags   = "${module.label.tags}"
 }
 
 module "test" {
-  source     = "../../modules/patterns/lambda/dynamo_adapter"
-  stream_arn = "${aws_dynamodb_table.test_table.stream_arn}"
-  sns_arn    = "${module.test_sns2sqs.sns_arn}"
-  tags       = "${label.tags}"
+  source = "../../modules/patterns/lambda/dynamo_adapter"
+
+  name             = "${local.name}"
+  event_source_arn = "${aws_dynamodb_table.table.stream_arn}"
+  topic_arn        = "${module.sns_to_sqs.sns_arn}"
+  emails           = ["salavat.galiamov@albell.com"]
+  temp_bucket      = "cct-bo-temp-t"
+  tags             = "${module.label.tags}"
 }
