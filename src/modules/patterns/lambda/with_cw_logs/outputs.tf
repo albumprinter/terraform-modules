@@ -1,5 +1,5 @@
 output "app_name" {
-  value = "${var.app_name}"
+  value = "${var.name}"
 }
 
 output "lambda_arn" {
