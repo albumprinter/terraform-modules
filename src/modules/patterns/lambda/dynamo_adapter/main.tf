@@ -12,7 +12,7 @@ data "archive_file" "zip" {
 resource "aws_s3_bucket_object" "zip" {
   key    = "${var.name}"
   bucket = "${var.temp_bucket}"
-  source = "${path.module}/publish/index.zip"
+  source = "${local.packagePath}"
   tags   = "${var.tags}"
 }
 
