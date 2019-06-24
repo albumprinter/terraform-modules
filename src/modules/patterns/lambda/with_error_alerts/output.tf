@@ -3,11 +3,11 @@ output "app_name" {
 }
 
 output "lambda_arn" {
-  value = "${module.lambda.arn}"
+  value = "${module.lambda.lambda_arn}"
 }
 
 output "lambda_invoke_arn" {
-  value = "${module.lambda.invoke_arn}"
+  value = "${module.lambda.lambda_invoke_arn}"
 }
 
 output "role_arn" {
