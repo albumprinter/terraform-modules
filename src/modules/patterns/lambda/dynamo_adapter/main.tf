@@ -30,17 +30,12 @@ resource "aws_iam_policy" "publish_to_sns_policy" {
   policy      = "${data.aws_iam_policy_document.publish_to_sns_policy_document.json}"
 }
 
-resource "aws_iam_role_policy_attachment" "dynamodb_policy_attachment" {
-  role       = "${module.app.role_name}"
-  policy_arn = "arn:aws:iam::aws:policy/AWSLambdaInvocation-DynamoDB"
-}
-
 resource "aws_iam_role_policy_attachment" "sns_policy_attachment" {
   role       = "${module.app.role_name}"
   policy_arn = "${aws_iam_policy.publish_to_sns_policy.arn}"
 }
 
-resource "aws_iam_role_policy_attachment" "dynampdb_policy_attachment" {
+resource "aws_iam_role_policy_attachment" "dynamodb_policy_attachment" {
   role       = "${module.app.role_name}"
   policy_arn = "arn:aws:iam::aws:policy/AWSLambdaInvocation-DynamoDB"
 }
