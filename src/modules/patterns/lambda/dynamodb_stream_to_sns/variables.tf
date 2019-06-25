@@ -10,6 +10,10 @@ variable "topic_arn" {
   description = "(Required) SNS topic you want to publish to."
 }
 
+variable "subject" {
+  description = "(Required) SNS topic subject."
+}
+
 variable "temp_bucket" {
   description = "(Required) The name of a temp bucket for deployment process."
 }

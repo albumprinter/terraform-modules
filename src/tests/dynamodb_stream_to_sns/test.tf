@@ -40,10 +40,11 @@ module "sns_to_sqs" {
 }
 
 module "test" {
-  source           = "../../modules/patterns/lambda/dynamo_adapter"
+  source           = "../../modules/patterns/lambda/dynamodb_stream_to_sns"
   name             = "${local.name}"
   event_source_arn = "${aws_dynamodb_table.table.stream_arn}"
   topic_arn        = "${module.sns_to_sqs.sns_arn}"
+  subject          = "${local.name}"
   emails           = ["salavat.galiamov@albelli.com"]
   temp_bucket      = "cct-bo-temp-t"
   period           = 60

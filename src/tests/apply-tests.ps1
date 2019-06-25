@@ -15,21 +15,22 @@ param(
 
 function Test() {
     param([string]$testPath)
+    Write-Host "Testing: $($testPath)" -ForegroundColor Cyan
 
     $path = [io.path]::GetDirectoryName($testPath)
     Set-Location $path
 
-    &terraform init
+    &terraform init | Select-String -Pattern "Terraform has been successfully initialized!"
 
     if ($dry) {
-        &terraform plan
+        &terraform plan | Select-String -Pattern "Plan:"
     }
     else {
-        &terraform apply -auto-approve
+        &terraform apply -auto-approve | Select-String -Pattern "Apply complete!"
     }
 
     if (!$dry -and !$keepResources) {
-        &terraform destroy -auto-approve
+        &terraform destroy -auto-approve | Select-String -Pattern "Destroy complete!"
     }
 }
 
