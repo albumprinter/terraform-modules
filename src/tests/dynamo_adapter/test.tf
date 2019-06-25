@@ -46,5 +46,6 @@ module "test" {
   topic_arn        = "${module.sns_to_sqs.sns_arn}"
   emails           = ["salavat.galiamov@albelli.com"]
   temp_bucket      = "cct-bo-temp-t"
+  period           = 60
   tags             = "${module.label.tags}"
 }

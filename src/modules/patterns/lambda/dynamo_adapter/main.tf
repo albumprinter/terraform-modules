@@ -63,7 +63,8 @@ module "app" {
   emails         = "${var.emails}"
   description    = "${var.description}"
   tags           = "${var.tags}"
-  memory_size    = 128
+  memory_size    = 512
+  period         = "${var.period}"
 
   variables = {
     TOPIC_ARN = "${var.topic_arn}"
