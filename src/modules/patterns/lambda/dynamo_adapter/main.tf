@@ -21,8 +21,32 @@ resource "aws_iam_role_policy_attachment" "app" {
   policy_arn = "arn:aws:iam::aws:policy/AWSLambdaInvocation-DynamoDB"
 }
 
+data "aws_iam_policy_document" "publish_to_sns_policy_document" {
+  statement {
+    resources = ["${var.topic_arn}"]
+    effect    = "Allow"
+    actions   = ["sns:Publish"]
+  }
+}
+
+resource "aws_iam_policy" "publish_to_sns_policy" {
+  name        = "${var.name}"
+  description = "IAM policy for publishing to SNS from ${var.name}."
+  policy      = "${data.aws_iam_policy_document.publish_to_sns_policy_document.json}"
+}
+
+resource "aws_iam_role_policy_attachment" "dynamodb_policy_attachment" {
+  role       = "${module.app.role_name}"
+  policy_arn = "arn:aws:iam::aws:policy/AWSLambdaInvocation-DynamoDB"
+}
+
+resource "aws_iam_role_policy_attachment" "sns_policy_attachment" {
+  role       = "${module.app.role_name}"
+  policy_arn = "${aws_iam_policy.publish_to_sns_policy.arn}"
+}
+
 resource "aws_lambda_event_source_mapping" "app" {
-  depends_on        = ["aws_iam_role_policy_attachment.app"]
+  depends_on        = ["aws_iam_role_policy_attachment.dynamodb_policy_attachment"]
   function_name     = "${module.app.lambda_arn}"
   event_source_arn  = "${var.event_source_arn}"
   batch_size        = "${var.batch_size}"
