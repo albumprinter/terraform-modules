@@ -63,5 +63,6 @@ module "app" {
 
   variables = {
     TOPIC_ARN = "${var.topic_arn}"
+    SUBJECT   = "${var.subject}"
   }
 }
