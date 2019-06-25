@@ -15,7 +15,7 @@ exports.handler = function(event, _context, callback) {
     if (error) {
       console.error({
         error,
-        event: body
+        event
       });
       callback(error);
     } else {
