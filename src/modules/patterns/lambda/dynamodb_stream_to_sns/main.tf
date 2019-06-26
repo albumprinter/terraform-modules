@@ -42,36 +42,6 @@ module "stream_policy" {
   stream_arn  = "${var.event_source_arn}"
 }
 
-# resource "aws_iam_policy" "stream_policy" {
-#   name        = "${var.name}-Stream"
-#   description = "Grant access for streaming events from DynamoDB table to a lambda."
-
-#   policy = <<EOF
-# {
-#     "Version": "2012-10-17",
-#     "Statement": [
-#         {
-#             "Effect": "Allow",
-#             "Action": [
-#                 "dynamodb:ListStreams",
-#                 "lambda:InvokeFunction"
-#             ],
-#             "Resource": "*"
-#         },
-#         {
-#             "Effect": "Allow",
-#             "Action": [
-#                 "dynamodb:DescribeStream",
-#                 "dynamodb:GetRecords",
-#                 "dynamodb:GetShardIterator"
-#             ],
-#             "Resource": "${var.event_source_arn}"
-#         }
-#     ]
-# }
-# EOF
-# }
-
 resource "aws_iam_role_policy_attachment" "sns_policy_attachment" {
   role       = "${module.app.role_name}"
   policy_arn = "${module.sns_publisher_policy.arn}"

@@ -3,7 +3,7 @@ const TOPIC_ARN = process.env.TOPIC_ARN;
 const DLQ_URL = process.env.DLQ_URL;
 const MAX_SQS_MESSAGE_SIZE = 262144;
 
-const aws = require("./node_modules/aws-sdk");
+const aws = require("aws-sdk");
 const sns = new aws.SNS();
 const sqs = new aws.SQS();
 
