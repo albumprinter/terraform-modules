@@ -24,13 +24,6 @@ module "dlq" {
   tags                      = "${var.tags}"
 }
 
-resource "aws_lambda_event_source_mapping" "app" {
-  function_name     = "${module.app.lambda_arn}"
-  event_source_arn  = "${var.event_source_arn}"
-  batch_size        = "${var.batch_size}"
-  starting_position = "TRIM_HORIZON"
-}
-
 module "sns_publisher_policy" {
   source      = "../../../resources/iam/sns_publisher"
   policy_name = "${var.name}-SNS"
@@ -44,9 +37,9 @@ module "dlq_publisher_policy" {
 }
 
 module "stream_reader_policy" {
-  source           = "../../../resources/iam/dynamodb_stream_reader"
-  policy_name      = "${var.name}-Stream-Reader"
-  dynamo_table_arn = "${var.dynamo_table_arn}"
+  source      = "../../../resources/iam/dynamodb_stream_reader"
+  policy_name = "${var.name}-Stream-Reader"
+  stream_arn  = "${var.event_source_arn}"
 }
 
 resource "aws_iam_role_policy_attachment" "sns_policy_attachment" {
@@ -62,6 +55,14 @@ resource "aws_iam_role_policy_attachment" "dlq_policy_attachment" {
 resource "aws_iam_role_policy_attachment" "dynamodb_policy_attachment" {
   role       = "${module.app.role_name}"
   policy_arn = "${module.stream_reader_policy.arn}"
+}
+
+resource "aws_lambda_event_source_mapping" "app" {
+  # depends_on        = ["module.stream_reader_policy"]
+  function_name     = "${module.app.lambda_arn}"
+  event_source_arn  = "${var.event_source_arn}"
+  batch_size        = "${var.batch_size}"
+  starting_position = "TRIM_HORIZON"
 }
 
 module "app" {

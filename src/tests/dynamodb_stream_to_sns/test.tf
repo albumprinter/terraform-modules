@@ -44,10 +44,11 @@ module "test" {
   name             = "${local.name}"
   event_source_arn = "${aws_dynamodb_table.table.stream_arn}"
   topic_arn        = "${module.sns_to_sqs.sns_arn}"
-  dynamo_table_arn = "${aws_dynamodb_table.table.arn}"
-  subject          = "${local.name}"
-  emails           = ["salavat.galiamov@albelli.com"]
-  temp_bucket      = "cct-bo-temp-t"
-  period           = 60
-  tags             = "${module.label.tags}"
+
+  # dynamo_table_arn = "${aws_dynamodb_table.table.arn}"
+  subject     = "${local.name}"
+  emails      = ["salavat.galiamov@albelli.com"]
+  temp_bucket = "cct-bo-temp-t"
+  period      = 60
+  tags        = "${module.label.tags}"
 }

@@ -11,7 +11,7 @@ param(
     [string][Alias("f")]$testFile,
     [switch][Alias("k")]$keepResources,
     [switch][Alias("d")]$dry,
-    [switch][Alias("v")]$verbose
+    [switch][Alias("q")]$quiet
 )
 
 function Test() {
@@ -21,17 +21,17 @@ function Test() {
     $path = [io.path]::GetDirectoryName($testPath)
     Set-Location $path
 
-    &terraform init | Where-Object { $verbose -or $_ -match "Terraform has been successfully initialized!" }
+    &terraform init | Where-Object { -not $quiet -or $_ -match "Terraform has been successfully initialized!" }
 
     if ($dry) {
-        &terraform plan | Where-Object { $verbose -or $_ -match "Plan:" }
+        &terraform plan | Where-Object { -not $quiet -or $_ -match "Plan:" }
     }
     else {
-        &terraform apply -auto-approve | Where-Object { $verbose -or $_ -match "Apply complete!" }
+        &terraform apply -auto-approve | Where-Object { -not $quiet -or $_ -match "Apply complete!" }
     }
 
     if (!$dry -and !$keepResources) {
-        &terraform destroy -auto-approve | Where-Object { $verbose -or $_ -match "Destroy complete!" }
+        &terraform destroy -auto-approve | Where-Object { -not $quiet -or $_ -match "Destroy complete!" }
     }
 }
 
