@@ -10,6 +10,11 @@ variable "handler" {
   description = "The function entrypoint in your code."
 }
 
+variable "runtime" {
+  default     = "nodejs10.x"
+  description = "The identifier of the function's runtime."
+}
+
 variable "filename" {
   description = "(Required) The path to the function's deployment package within the local filesystem."
 }

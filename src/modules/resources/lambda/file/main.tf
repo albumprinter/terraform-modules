@@ -3,7 +3,7 @@ resource "aws_lambda_function" "app" {
   description   = "${var.description}"
   role          = "${var.role_arn}"
   handler       = "${var.handler}"
-  runtime       = "nodejs10.x"
+  runtime       = "${var.runtime}"
   memory_size   = "${var.memory_size}"
   timeout       = "${var.timeout}"
   filename      = "${var.filename}"
