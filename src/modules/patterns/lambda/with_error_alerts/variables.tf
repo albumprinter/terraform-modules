@@ -11,18 +11,24 @@ variable "handler" {
   description = "(Required) The function entrypoint in your code."
 }
 
+variable "filename" {
+  default     = ""
+  description = "(Optional) The path to the function's deployment package within the local filesystem. If defined, The s3_-prefixed options cannot be used."
+}
+
 variable "s3_bucket_name" {
-  description = "(Required) Lambda source bucket (storage)"
+  default     = ""
+  description = "(Optional) The S3 bucket location containing the function's deployment package. Conflicts with filename. This bucket must reside in the same AWS region where you are creating the Lambda function."
+}
+
+variable "s3_bucket_path" {
+  default     = ""
+  description = "(Optional) The S3 key of an object containing the function's deployment package. Conflicts with filename."
 }
 
 variable "emails" {
   type        = "list"
   description = "(Required) Emails for notification in case of errors"
-}
-
-variable "s3_bucket_path" {
-  default     = ""
-  description = "(Optional) Path to artifact (zipped lambda)"
 }
 
 variable "runtime" {

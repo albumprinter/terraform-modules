@@ -53,11 +53,12 @@ resource "aws_iam_role_policy_attachment" "lambda_logging" {
 }
 
 module "lambda" {
-  source = "../../../resources/lambda/plain"
+  source = "../plain_or_file"
 
   name           = "${var.name}"
   description    = "${var.description}"
   role_arn       = "${aws_iam_role.app.arn}"
+  filename       = "${var.filename}"
   s3_bucket_name = "${var.s3_bucket_name}"
   s3_bucket_path = "${var.s3_bucket_path}"
   handler        = "${var.handler}"
