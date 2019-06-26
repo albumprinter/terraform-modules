@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 locals {
-  app_name = "test_lambda_with_error_alerts"
+  app_name = "test-lambda-with-error-alerts"
   bucket   = "cct-bo-temp-t"
 }
 

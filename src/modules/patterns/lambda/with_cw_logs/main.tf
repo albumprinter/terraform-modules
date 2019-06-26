@@ -58,7 +58,7 @@ module "lambda" {
   name           = "${var.name}"
   description    = "${var.description}"
   role_arn       = "${aws_iam_role.app.arn}"
-  filename       = "${var.filename}"
+  filepath       = "${var.filepath}"
   s3_bucket_name = "${var.s3_bucket_name}"
   s3_bucket_path = "${var.s3_bucket_path}"
   handler        = "${var.handler}"

@@ -1,3 +1,9 @@
+data "archive_file" "zip" {
+  type        = "zip"
+  source_file = "${var.filepath}"
+  output_path = "${path.cwd}/publish/package.zip"
+}
+
 resource "aws_lambda_function" "app" {
   count         = "${var.count}"
   function_name = "${var.name}"
@@ -7,7 +13,7 @@ resource "aws_lambda_function" "app" {
   runtime       = "${var.runtime}"
   memory_size   = "${var.memory_size}"
   timeout       = "${var.timeout}"
-  filename      = "${var.filename}"
+  filename      = "${path.cwd}/publish/package.zip"
 
   reserved_concurrent_executions = "${var.max_concurrent_executions}"
 

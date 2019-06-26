@@ -53,7 +53,7 @@ resource "aws_lambda_event_source_mapping" "app" {
 module "app" {
   source       = "../with_error_alerts"
   name         = "${var.name}"
-  filename     = "${local.sourceFile}"
+  filepath     = "${local.sourceFile}"
   handler      = "index.handler"
   runtime      = "nodejs10.x"
   emails       = "${var.emails}"

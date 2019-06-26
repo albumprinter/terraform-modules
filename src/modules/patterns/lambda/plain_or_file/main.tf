@@ -1,5 +1,5 @@
 module "plain" {
-  count                     = "${var.filename == "" ? 1 : 0}"
+  count                     = "${var.filepath == "" ? 1 : 0}"
   source                    = "../../../resources/lambda/plain"
   name                      = "${var.name}"
   description               = "${var.description}"
@@ -16,12 +16,12 @@ module "plain" {
 }
 
 module "file" {
-  count                     = "${var.filename != "" ? 1 : 0}"
+  count                     = "${var.filepath != "" ? 1 : 0}"
   source                    = "../../../resources/lambda/file"
   name                      = "${var.name}"
   description               = "${var.description}"
   role_arn                  = "${var.role_arn}"
-  filename                  = "${var.filename}"
+  filepath                  = "${var.filepath}"
   handler                   = "${var.handler}"
   runtime                   = "${var.runtime}"
   memory_size               = "${var.memory_size}"

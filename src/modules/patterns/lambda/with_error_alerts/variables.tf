@@ -11,7 +11,7 @@ variable "handler" {
   description = "(Required) The function entrypoint in your code."
 }
 
-variable "filename" {
+variable "filepath" {
   default     = ""
   description = "(Optional) The path to the function's deployment package within the local filesystem. If defined, The s3_-prefixed options cannot be used."
 }

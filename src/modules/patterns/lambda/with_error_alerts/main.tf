@@ -2,7 +2,7 @@ module "lambda" {
   source         = "../with_cw_logs"
   name           = "${var.name}"
   description    = "${var.description}"
-  filename       = "${var.filename}"
+  filepath       = "${var.filepath}"
   s3_bucket_name = "${var.s3_bucket_name}"
   s3_bucket_path = "${var.s3_bucket_path}"
   handler        = "${var.handler}"

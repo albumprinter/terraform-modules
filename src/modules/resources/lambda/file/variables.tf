@@ -15,7 +15,7 @@ variable "runtime" {
   description = "The identifier of the function's runtime."
 }
 
-variable "filename" {
+variable "filepath" {
   description = "(Required) The path to the function's deployment package within the local filesystem."
 }
 
