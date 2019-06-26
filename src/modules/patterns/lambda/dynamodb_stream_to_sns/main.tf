@@ -37,8 +37,8 @@ module "dlq_publisher_policy" {
 }
 
 module "stream_reader_policy" {
-  source      = "../../../resources/iam/dynamodb_stream_reader"
-  policy_name = "${var.name}-Stream-Reader"
+  source      = "../../../resources/iam/dynamodb_stream"
+  policy_name = "${var.name}-Stream"
   stream_arn  = "${var.event_source_arn}"
 }
 
