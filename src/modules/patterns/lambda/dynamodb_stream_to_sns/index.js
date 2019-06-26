@@ -1,7 +1,6 @@
 const SUBJECT = process.env.SUBJECT;
 const TOPIC_ARN = process.env.TOPIC_ARN;
 const DLQ_URL = process.env.DLQ_URL;
-const MAX_SQS_MESSAGE_SIZE = 262144;
 
 const aws = require("aws-sdk");
 const sns = new aws.SNS();
@@ -14,23 +13,18 @@ function errorHandler(error, message, callback) {
     message: json
   });
 
-  if (Buffer.byteLength(json) <= MAX_SQS_MESSAGE_SIZE) {
-    var dlqMessage = {
-      MessageBody: json,
-      QueueUrl: DLQ_URL
-    };
+  var dlqMessage = {
+    MessageBody: json,
+    QueueUrl: DLQ_URL
+  };
 
-    sqs.sendMessage(dlqMessage, function(fatal, response) {
-      if (fatal) {
-        console.error({ fatal });
-        callback(fatal, response);
-      } else {
-        callback(undefined, response);
-      }
-    });
-  } else {
-    callback();
-  }
+  sqs.sendMessage(dlqMessage, function(sqsError, response) {
+    if (sqsError && sqsError.retryable === true) {
+      callback(sqsError, response);
+    } else {
+      callback(undefined, response);
+    }
+  });
 }
 
 function createCorrelationId() {
