@@ -2,47 +2,51 @@ const SUBJECT = process.env.SUBJECT;
 const TOPIC_ARN = process.env.TOPIC_ARN;
 const DLQ_URL = process.env.DLQ_URL;
 
-const crypto = require("crypto");
 const aws = require("aws-sdk");
 const sns = new aws.SNS();
 const sqs = new aws.SQS();
+const maxSqsMessageSize = 262144;
 
 function errorHandler(error, event, correlationId, callback) {
+  const eventJson = JSON.stringify(event);
   console.error({
     error,
-    event,
+    event: eventJson,
     correlationId
   });
 
-  var dlqMessage = {
-    MessageBody: JSON.stringify(event),
-    QueueUrl: DLQ_URL,
-    MessageAttributes: {
-      "X-CorrelationId": {
-        DataType: "String",
-        StringValue: correlationId || createCorrelationId()
+  if (Buffer.byteLength(eventJson) <= maxSqsMessageSize) {
+    var dlqMessage = {
+      MessageBody: eventJson,
+      QueueUrl: DLQ_URL,
+      MessageAttributes: {
+        "X-CorrelationId": {
+          DataType: "String",
+          StringValue: correlationId || createCorrelationId()
+        }
       }
-    }
-  };
+    };
 
-  sqs.sendMessage(dlqMessage, function(fatal, response) {
-    if (fatal) {
-      console.error({
-        fatal,
-        event
-      });
-      callback(fatal);
-    } else {
-      callback(undefined, response);
-    }
-  });
+    sqs.sendMessage(dlqMessage, function(fatal, response) {
+      if (fatal) {
+        console.error({ fatal });
+        callback(fatal, response);
+      } else {
+        callback(undefined, response);
+      }
+    });
+  } else {
+    callback();
+  }
 }
 
 function createCorrelationId() {
-  return crypto
-    .randomBytes(16)
-    .toString("hex")
-    .replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, "$1-$2-$3-$4-$5");
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+    const r = (Math.random() * 16) | 0,
+      v = c == "x" ? r : (r & 0x3) | 0x8;
+
+    return v.toString(16);
+  });
 }
 
 exports.handler = function(event, _context, callback) {
@@ -64,7 +68,6 @@ exports.handler = function(event, _context, callback) {
 
     sns.publish(snsMessage, function(error, response) {
       if (error) {
-        console.error("test");
         errorHandler(error, event, correlationId, callback);
       } else {
         callback(undefined, response);

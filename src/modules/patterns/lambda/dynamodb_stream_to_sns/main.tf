@@ -25,7 +25,6 @@ module "dlq" {
 }
 
 resource "aws_lambda_event_source_mapping" "app" {
-  depends_on        = ["aws_iam_role_policy_attachment.dynamodb_policy_attachment"]
   function_name     = "${module.app.lambda_arn}"
   event_source_arn  = "${var.event_source_arn}"
   batch_size        = "${var.batch_size}"
