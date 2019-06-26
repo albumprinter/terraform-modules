@@ -1,11 +1,11 @@
 const SUBJECT = process.env.SUBJECT;
 const TOPIC_ARN = process.env.TOPIC_ARN;
 const DLQ_URL = process.env.DLQ_URL;
+const MAX_SQS_MESSAGE_SIZE = 262144;
 
-const aws = require("aws-sdk");
+const aws = require("./node_modules/aws-sdk");
 const sns = new aws.SNS();
 const sqs = new aws.SQS();
-const maxSqsMessageSize = 262144;
 
 function errorHandler(error, event, correlationId, callback) {
   const eventJson = JSON.stringify(event);
@@ -15,7 +15,7 @@ function errorHandler(error, event, correlationId, callback) {
     correlationId
   });
 
-  if (Buffer.byteLength(eventJson) <= maxSqsMessageSize) {
+  if (Buffer.byteLength(eventJson) <= MAX_SQS_MESSAGE_SIZE) {
     var dlqMessage = {
       MessageBody: eventJson,
       QueueUrl: DLQ_URL,
