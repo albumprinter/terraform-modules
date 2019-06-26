@@ -8,8 +8,8 @@
 # .\apply-tests.ps1
 
 param(
-    [switch][Alias("k")]$keepResources,
     [string][Alias("f")]$testFile,
+    [switch][Alias("k")]$keepResources,
     [switch][Alias("d")]$dry,
     [switch][Alias("v")]$verbose
 )

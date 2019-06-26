@@ -39,10 +39,10 @@ function errorHandler(error, event, correlationId, callback) {
 }
 
 function createCorrelationId() {
-  return (correlationId = crypto
+  return crypto
     .randomBytes(16)
     .toString("hex")
-    .replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, "$1-$2-$3-$4-$5"));
+    .replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, "$1-$2-$3-$4-$5");
 }
 
 exports.handler = function(event, _context, callback) {
