@@ -16,28 +16,12 @@ resource "aws_s3_bucket_object" "zip" {
   tags   = "${var.tags}"
 }
 
-data "aws_iam_policy_document" "publish_to_sns_policy_document" {
-  statement {
-    resources = ["${var.topic_arn}"]
-    effect    = "Allow"
-    actions   = ["sns:Publish"]
-  }
-}
-
-resource "aws_iam_policy" "publish_to_sns_policy" {
-  name        = "${var.name}"
-  description = "IAM policy for publishing to SNS from ${var.name}."
-  policy      = "${data.aws_iam_policy_document.publish_to_sns_policy_document.json}"
-}
-
-resource "aws_iam_role_policy_attachment" "sns_policy_attachment" {
-  role       = "${module.app.role_name}"
-  policy_arn = "${aws_iam_policy.publish_to_sns_policy.arn}"
-}
-
-resource "aws_iam_role_policy_attachment" "dynamodb_policy_attachment" {
-  role       = "${module.app.role_name}"
-  policy_arn = "arn:aws:iam::aws:policy/AWSLambdaInvocation-DynamoDB"
+module "dlq" {
+  source                    = "../../../resources/sqs/plain"
+  name                      = "${var.name}-Dlq"
+  message_retention_seconds = 1209600                        # Max
+  max_message_size          = 262144                         # Max
+  tags                      = "${var.tags}"
 }
 
 resource "aws_lambda_event_source_mapping" "app" {
@@ -46,6 +30,33 @@ resource "aws_lambda_event_source_mapping" "app" {
   event_source_arn  = "${var.event_source_arn}"
   batch_size        = "${var.batch_size}"
   starting_position = "TRIM_HORIZON"
+}
+
+module "sns_publisher_policy" {
+  source      = "../../../resources/iam/sns_publisher"
+  policy_name = "${var.name}-SNS"
+  topics_arn  = ["${var.topic_arn}"]
+}
+
+module "dlq_publisher_policy" {
+  source      = "../../../resources/iam/sqs_publisher"
+  policy_name = "${var.name}-DLQ"
+  queues_arn  = ["${module.dlq.arn}"]
+}
+
+resource "aws_iam_role_policy_attachment" "sns_policy_attachment" {
+  role       = "${module.app.role_name}"
+  policy_arn = "${module.sns_publisher_policy.arn}"
+}
+
+resource "aws_iam_role_policy_attachment" "dlq_policy_attachment" {
+  role       = "${module.app.role_name}"
+  policy_arn = "${module.dlq_publisher_policy.arn}"
+}
+
+resource "aws_iam_role_policy_attachment" "dynamodb_policy_attachment" {
+  role       = "${module.app.role_name}"
+  policy_arn = "arn:aws:iam::aws:policy/AWSLambdaInvocation-DynamoDB"
 }
 
 module "app" {
@@ -62,7 +73,8 @@ module "app" {
   period         = "${var.period}"
 
   variables = {
-    TOPIC_ARN = "${var.topic_arn}"
     SUBJECT   = "${var.subject}"
+    TOPIC_ARN = "${var.topic_arn}"
+    DLQ_URL   = "${module.dlq.id}"
   }
 }
