@@ -10,6 +10,10 @@ variable "topic_arn" {
   description = "(Required) SNS topic you want to publish to."
 }
 
+variable "dynamo_table_arn" {
+  description = "(Required) DynamoDb table to listed events stream."
+}
+
 variable "subject" {
   description = "(Required) SNS topic subject."
 }

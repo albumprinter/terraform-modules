@@ -18,7 +18,7 @@ resource "aws_s3_bucket_object" "zip" {
 
 module "dlq" {
   source                    = "../../../resources/sqs/plain"
-  name                      = "${var.name}-Dlq"
+  name                      = "${var.name}-ERROR"
   message_retention_seconds = 1209600                        # Max
   max_message_size          = 262144                         # Max
   tags                      = "${var.tags}"
@@ -43,6 +43,12 @@ module "dlq_publisher_policy" {
   queues_arn  = ["${module.dlq.arn}"]
 }
 
+module "stream_reader_policy" {
+  source           = "../../../resources/iam/dynamodb_stream_reader"
+  policy_name      = "${var.name}-Stream-Reader"
+  dynamo_table_arn = "${var.dynamo_table_arn}"
+}
+
 resource "aws_iam_role_policy_attachment" "sns_policy_attachment" {
   role       = "${module.app.role_name}"
   policy_arn = "${module.sns_publisher_policy.arn}"
@@ -55,7 +61,7 @@ resource "aws_iam_role_policy_attachment" "dlq_policy_attachment" {
 
 resource "aws_iam_role_policy_attachment" "dynamodb_policy_attachment" {
   role       = "${module.app.role_name}"
-  policy_arn = "arn:aws:iam::aws:policy/AWSLambdaInvocation-DynamoDB"
+  policy_arn = "${module.stream_reader_policy.arn}"
 }
 
 module "app" {

@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 locals {
-  name = "test_dynamo_to_sqs"
+  name = "test-dynamo-to-sqs"
 }
 
 module "label" {
@@ -35,7 +35,7 @@ resource "aws_dynamodb_table" "table" {
 
 module "sns_to_sqs" {
   source = "../../modules/patterns/sns_to_sqs_with_dlq"
-  name   = "${local.name}"
+  name   = "${local.name}-Output"
   tags   = "${module.label.tags}"
 }
 
@@ -44,6 +44,7 @@ module "test" {
   name             = "${local.name}"
   event_source_arn = "${aws_dynamodb_table.table.stream_arn}"
   topic_arn        = "${module.sns_to_sqs.sns_arn}"
+  dynamo_table_arn = "${aws_dynamodb_table.table.arn}"
   subject          = "${local.name}"
   emails           = ["salavat.galiamov@albelli.com"]
   temp_bucket      = "cct-bo-temp-t"
