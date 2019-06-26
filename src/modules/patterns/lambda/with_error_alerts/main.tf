@@ -42,7 +42,7 @@ module "metric_alarm" {
   comparison_operator = "${var.comparison_operator}"
   evaluation_periods  = "${var.evaluation_periods}"
   metric_name         = "${module.metric_filter.name}"
-  period              = "${var.period}"
+  period              = "${var.alert_period}"
   statistic           = "${var.statistic}"
   threshold           = "${var.threshold}"
   alarm_description   = "This metric alerts on ${var.name} errors"

@@ -63,7 +63,7 @@ variable "pattern" {
   description = "(Optional) A valid CloudWatch Logs filter pattern for extracting metric data out of ingested log events."
 }
 
-variable "period" {
+variable "alert_period" {
   default     = "3600"
   description = "(Optional) The period in seconds over which the specified statistic is applied."
 }

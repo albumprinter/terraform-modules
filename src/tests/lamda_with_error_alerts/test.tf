@@ -38,5 +38,5 @@ module "test" {
   s3_bucket_path = "${aws_s3_bucket_object.bucket.id}"
   handler        = "index.handler"
   runtime        = "nodejs10.x"
-  period         = 60
+  alert_period   = 60
 }

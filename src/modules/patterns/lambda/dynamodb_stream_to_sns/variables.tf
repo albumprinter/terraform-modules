@@ -39,7 +39,7 @@ variable "description" {
   description = "(Optional) Lambda description"
 }
 
-variable "period" {
+variable "alert_period" {
   default     = "3600"
   description = "(Optional) The period in seconds over which the specified statistic is applied."
 }

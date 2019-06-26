@@ -75,7 +75,7 @@ module "app" {
   description    = "${var.description}"
   tags           = "${var.tags}"
   memory_size    = 512
-  period         = "${var.period}"
+  alert_period   = "${var.alert_period}"
 
   variables = {
     SUBJECT   = "${var.subject}"
