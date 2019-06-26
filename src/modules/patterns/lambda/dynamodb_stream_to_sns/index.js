@@ -7,24 +7,17 @@ const aws = require("./node_modules/aws-sdk");
 const sns = new aws.SNS();
 const sqs = new aws.SQS();
 
-function errorHandler(error, event, correlationId, callback) {
-  const eventJson = JSON.stringify(event);
+function errorHandler(error, message, callback) {
+  const json = JSON.stringify(message);
   console.error({
     error,
-    event: eventJson,
-    correlationId
+    message: json
   });
 
-  if (Buffer.byteLength(eventJson) <= MAX_SQS_MESSAGE_SIZE) {
+  if (Buffer.byteLength(json) <= MAX_SQS_MESSAGE_SIZE) {
     var dlqMessage = {
-      MessageBody: eventJson,
-      QueueUrl: DLQ_URL,
-      MessageAttributes: {
-        "X-CorrelationId": {
-          DataType: "String",
-          StringValue: correlationId || createCorrelationId()
-        }
-      }
+      MessageBody: json,
+      QueueUrl: DLQ_URL
     };
 
     sqs.sendMessage(dlqMessage, function(fatal, response) {
@@ -49,31 +42,32 @@ function createCorrelationId() {
   });
 }
 
+function createSnsMessage(event) {
+  return {
+    Message: JSON.stringify(event),
+    TopicArn: TOPIC_ARN,
+    Subject: SUBJECT,
+    MessageAttributes: {
+      "X-CorrelationId": {
+        DataType: "String",
+        StringValue: createCorrelationId()
+      }
+    }
+  };
+}
+
 exports.handler = function(event, _context, callback) {
-  let correlationId;
+  const snsMessage = createSnsMessage(event);
 
   try {
-    correlationId = createCorrelationId();
-    const snsMessage = {
-      Message: JSON.stringify(event),
-      TopicArn: TOPIC_ARN,
-      Subject: SUBJECT,
-      MessageAttributes: {
-        "X-CorrelationId": {
-          DataType: "String",
-          StringValue: correlationId
-        }
-      }
-    };
-
     sns.publish(snsMessage, function(error, response) {
       if (error) {
-        errorHandler(error, event, correlationId, callback);
+        errorHandler(error, snsMessage, callback);
       } else {
         callback(undefined, response);
       }
     });
   } catch (error) {
-    errorHandler(error, event, correlationId, callback);
+    errorHandler(error, snsMessage, callback);
   }
 };

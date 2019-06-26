@@ -18,7 +18,7 @@ resource "aws_iam_policy" "app" {
             "Action": [
                 "dynamodb:DescribeStream",
                 "dynamodb:GetRecords",
-                "dynamodb:GetShardIterator",
+                "dynamodb:GetShardIterator"
             ],
             "Resource": "${var.stream_arn}"
         }
