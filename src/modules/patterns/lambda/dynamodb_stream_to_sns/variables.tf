@@ -6,9 +6,9 @@ variable "event_source_arn" {
   description = "(Required) The event source ARN - can either be a Kinesis or DynamoDB stream."
 }
 
-variable "topic_arn" {
-  description = "(Required) SNS topic you want to publish to."
-}
+# variable "topic_arn" {
+#   description = "(Required) SNS topic you want to publish to."
+# }
 
 variable "subject" {
   default     = "Dynamo stream event"
