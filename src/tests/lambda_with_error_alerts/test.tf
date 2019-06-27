@@ -20,13 +20,13 @@ module "label" {
 data "archive_file" "zip" {
   type        = "zip"
   source_file = "${path.module}/index.js"
-  output_path = "${path.module}/publish/index.zip"
+  output_path = "${path.cwd}/publish/index.zip"
 }
 
 resource "aws_s3_bucket_object" "bucket" {
   key    = "${local.app_name}"
   bucket = "${local.bucket}"
-  source = "${path.module}/publish/index.zip"
+  source = "${path.cwd}/publish/index.zip"
 }
 
 module "test" {
@@ -36,7 +36,16 @@ module "test" {
   tags           = "${module.label.tags}"
   s3_bucket_name = "${local.bucket}"
   s3_bucket_path = "${aws_s3_bucket_object.bucket.id}"
+  filepath       = ""
   handler        = "index.handler"
   runtime        = "nodejs10.x"
   alert_period   = 60
+}
+
+output "lambda_arn" {
+  value = "${module.test.lambda_arn}"
+}
+
+output "role_arn" {
+  value = "${module.test.role_arn}"
 }
