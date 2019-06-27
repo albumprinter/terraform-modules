@@ -33,28 +33,20 @@ resource "aws_dynamodb_table" "table" {
   ]
 }
 
-# module "sns_to_sqs" {
-#   source = "../../modules/patterns/sns_to_sqs_with_dlq"
-#   name   = "${local.name}-Output"
-#   tags   = "${module.label.tags}"
-# }
+module "sns_to_sqs" {
+  source = "../../modules/patterns/sns_to_sqs_with_dlq"
+  name   = "${local.name}-Output"
+  tags   = "${module.label.tags}"
+}
 
 module "test" {
   source           = "../../modules/patterns/lambda/dynamodb_stream_to_sns"
   name             = "${local.name}"
   event_source_arn = "${aws_dynamodb_table.table.stream_arn}"
-  # topic_arn        = "${module.sns_to_sqs.sns_arn}"
+  topic_arn        = "${module.sns_to_sqs.sns_arn}"
   subject          = "${local.name}"
   emails           = ["salavat.galiamov@albelli.com"]
   temp_bucket      = "cct-bo-temp-t"
   alert_period     = 60
   tags             = "${module.label.tags}"
-}
-
-output "arn" {
-  value = "${module.test.lambda_arn}"
-}
-
-output "role_arn" {
-  value = "${module.test.role_arn}"
 }

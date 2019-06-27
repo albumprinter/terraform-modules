@@ -41,11 +41,3 @@ module "test" {
   runtime        = "nodejs10.x"
   alert_period   = 60
 }
-
-output "lambda_arn" {
-  value = "${module.test.lambda_arn}"
-}
-
-output "role_arn" {
-  value = "${module.test.role_arn}"
-}
