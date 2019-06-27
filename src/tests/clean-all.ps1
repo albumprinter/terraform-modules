@@ -4,8 +4,6 @@ Get-ChildItem -Filter ".terraform" -ErrorAction SilentlyContinue -Recurse | ForE
     Write-Output "Cleaning $($path)"
 
     &terraform init
-
-    $Env:TF_WARN_OUTPUT_ERRORS = 1
     &terraform destroy -auto-approve
 }
 
