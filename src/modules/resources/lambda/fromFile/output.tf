@@ -1,11 +1,11 @@
 output "arn" {
-  value = "${element(concat(aws_lambda_function.app.*.arn, list("")), 0)}"
+  value = "${aws_lambda_function.app.*.arn}"
 }
 
 output "qualified_arn" {
-  value = "${element(concat(aws_lambda_function.app.*.qualified_arn, list("")), 0)}"
+  value = "${aws_lambda_function.app.*.qualified_arn}"
 }
 
 output "invoke_arn" {
-  value = "${element(concat(aws_lambda_function.app.*.invoke_arn, list("")), 0)}"
+  value = "${aws_lambda_function.app.*.invoke_arn}"
 }
