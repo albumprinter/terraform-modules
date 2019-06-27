@@ -15,10 +15,6 @@ variable "subject" {
   description = "(Optional) SNS topic subject."
 }
 
-variable "temp_bucket" {
-  description = "(Required) The name of a temp bucket for deployment process."
-}
-
 variable "tags" {
   type        = "map"
   description = "A mapping of tags to assign to the resource."
