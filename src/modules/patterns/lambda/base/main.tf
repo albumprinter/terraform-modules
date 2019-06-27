@@ -1,6 +1,6 @@
-module "plain" {
+module "fromS3" {
   count                     = "${var.filepath == "" ? 1 : 0}"
-  source                    = "../../../resources/lambda/plain"
+  source                    = "../../../resources/lambda/fromS3"
   name                      = "${var.name}"
   description               = "${var.description}"
   role_arn                  = "${var.role_arn}"
@@ -22,9 +22,9 @@ data "archive_file" "zip" {
   output_path = "${path.cwd}/publish/package.zip"
 }
 
-module "file" {
+module "fromFile" {
   count                     = "${var.filepath != "" ? 1 : 0}"
-  source                    = "../../../resources/lambda/file"
+  source                    = "../../../resources/lambda/fromFile"
   name                      = "${var.name}"
   description               = "${var.description}"
   role_arn                  = "${var.role_arn}"

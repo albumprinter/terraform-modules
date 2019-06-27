@@ -53,7 +53,7 @@ resource "aws_iam_role_policy_attachment" "lambda_logging" {
 }
 
 module "lambda" {
-  source = "../plain_or_file"
+  source = "../base"
 
   name           = "${var.name}"
   description    = "${var.description}"
