@@ -43,5 +43,5 @@ variable "alert_period" {
 
 variable "dlq_suffix" {
   default     = "ERROR"
-  description = "DLQ name has structure: {name}_{dlq_suffix}"
+  description = "(Optional) DLQ name has structure: {name}_{dlq_suffix}"
 }
