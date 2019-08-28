@@ -2,4 +2,6 @@ variable "zone_id" {}
 
 variable "domain_name" {}
 
-variable "tags" {}
+variable "tags" {
+  type = "map"
+}
