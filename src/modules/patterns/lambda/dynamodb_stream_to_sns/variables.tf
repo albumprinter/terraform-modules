@@ -48,5 +48,5 @@ variable "dlq_suffix" {
 
 variable "max_concurrent_executions" {
   default     = "-1"
-  description = "(Optional) The amount of reserved concurrent executions for this lambda function. A value of 0 disables lambda from being triggered and -1 removes any concurrency limitations. Defaults to Unreserved Concurrency Limits -1."
+  description = "(Optional) The amount of reserved concurrent executions for this lambda function. A value of 0 disables lambda from being triggered and -1 removes any concurrency limitations."
 }
