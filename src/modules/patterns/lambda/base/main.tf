@@ -16,10 +16,9 @@ module "fromS3" {
 }
 
 data "archive_file" "zip" {
-  fileSpecified = "${var.filepath != "" ? 1 : 0}"
-  type          = "zip"
-  source_file   = "${var.filepath}"
-  output_path   = "${path.cwd}/publish/package.zip"
+  type        = "zip"
+  source_file = "${var.filepath}"
+  output_path = "${path.cwd}/publish/package.zip"
 }
 
 module "fromFile" {
