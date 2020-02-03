@@ -57,6 +57,6 @@ variable "tags" {
   default = {}
 }
 
-variable "count" {
+variable "fileSpecified" {
   default = 1
 }

@@ -124,7 +124,7 @@ EOF
 }
 
 resource "aws_sns_topic_subscription" "notification" {
-  count                  = "${var.sumo_notification_endpoint != "" ? 1 : 0}"
+  emailsCount            = "${var.sumo_notification_endpoint != "" ? 1 : 0}"
   topic_arn              = "${aws_sns_topic.notification.arn}"
   protocol               = "https"
   endpoint               = "${var.sumo_notification_endpoint}"

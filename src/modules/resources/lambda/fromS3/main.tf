@@ -1,5 +1,5 @@
 resource "aws_lambda_function" "app" {
-  count         = "${var.count}"
+  fileSpecified = "${var.fileSpecified}"
   function_name = "${var.name}"
   description   = "${var.description}"
   role          = "${var.role_arn}"

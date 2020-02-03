@@ -1,5 +1,5 @@
 module "fromS3" {
-  count                     = "${var.filepath == "" ? 1 : 0}"
+  fileSpecified             = "${var.filepath == "" ? 1 : 0}"
   source                    = "../../../resources/lambda/fromS3"
   name                      = "${var.name}"
   description               = "${var.description}"
@@ -16,14 +16,14 @@ module "fromS3" {
 }
 
 data "archive_file" "zip" {
-  count       = "${var.filepath != "" ? 1 : 0}"
-  type        = "zip"
-  source_file = "${var.filepath}"
-  output_path = "${path.cwd}/publish/package.zip"
+  fileSpecified = "${var.filepath != "" ? 1 : 0}"
+  type          = "zip"
+  source_file   = "${var.filepath}"
+  output_path   = "${path.cwd}/publish/package.zip"
 }
 
 module "fromFile" {
-  count                     = "${var.filepath != "" ? 1 : 0}"
+  fileSpecified             = "${var.filepath != "" ? 1 : 0}"
   source                    = "../../../resources/lambda/fromFile"
   name                      = "${var.name}"
   description               = "${var.description}"
