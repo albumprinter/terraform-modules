@@ -7,6 +7,12 @@ variable "emails" {
   description = "(Required) Emails to notify."
 }
 
+variable "emails" {
+  default = "${length(var.emails)}"
+  type        = "list"
+  description = "(Required) Emails to notify."
+}
+
 variable "region" {
   default     = "eu-west-1"
   description = "(Optional) The region to use."
