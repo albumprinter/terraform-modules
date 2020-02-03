@@ -23,12 +23,10 @@ module "queue" {
 
 data "aws_iam_policy_document" "queue_policy" {
   statement {
-    principals = [
-      {
-        type        = "AWS"
-        identifiers = ["*"]
-      },
-    ]
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
 
     actions = [
       "sqs:GetQueueUrl",

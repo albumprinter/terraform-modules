@@ -21,10 +21,10 @@ data "aws_iam_policy_document" "app" {
       "sns:Receive",
     ]
 
-    principals = [{
+    principals {
       type        = "AWS"
       identifiers = ["*"]
-    }]
+    }
 
     condition {
       test     = "StringEquals"
@@ -44,10 +44,10 @@ data "aws_iam_policy_document" "app" {
       "sns:Subscribe",
     ]
 
-    principals = [{
+    principals {
       type        = "AWS"
       identifiers = ["${formatlist("arn:aws:iam::%s:root", coalescelist(var.accounts, local.current_account_as_list))}"]
-    }]
+    }
   }
 }
 
