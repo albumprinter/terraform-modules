@@ -15,12 +15,6 @@ module "fromS3" {
   tags                      = "${var.tags}"
 }
 
-data "archive_file" "zip" {
-  type        = "zip"
-  source_file = "${var.filepath}"
-  output_path = "${path.cwd}/publish/package.zip"
-}
-
 module "fromFile" {
   fileSpecified             = "${var.filepath != "" ? 1 : 0}"
   source                    = "../../../resources/lambda/fromFile"
