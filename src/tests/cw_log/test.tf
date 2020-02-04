@@ -36,5 +36,4 @@ module "alarm" {
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
   threshold           = "1"
-  alarm_actions       = []
 }
