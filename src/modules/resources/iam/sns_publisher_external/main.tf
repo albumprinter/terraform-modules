@@ -14,10 +14,10 @@ data "aws_iam_policy_document" "app" {
       "sns:Receive",
     ]
 
-    principals = [{
+    principals {
       type        = "AWS"
       identifiers = ["*"]
-    }]
+    }
 
     condition {
       test     = "StringEquals"
@@ -38,10 +38,10 @@ data "aws_iam_policy_document" "app" {
       "sns:Publish",
     ]
 
-    principals = [{
+    principals {
       type        = "AWS"
       identifiers = ["arn:aws:iam::${var.publisher_account_id}:root"]
-    }]
+    }
 
     sid = "${var.publisher_sid}"
   }
