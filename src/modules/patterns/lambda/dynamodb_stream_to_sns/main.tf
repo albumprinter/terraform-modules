@@ -13,13 +13,13 @@ module "dlq" {
 module "sns_publisher_policy" {
   source      = "../../../resources/iam/sns_publisher"
   policy_name = "${var.name}-SNS"
-  topics_arn  = ["${var.topic_arn}"]
+  topics_arn  = "${var.topic_arn}"
 }
 
 module "dlq_publisher_policy" {
   source      = "../../../resources/iam/sqs_publisher"
   policy_name = "${var.name}-DLQ"
-  queues_arn  = ["${module.dlq.arn}"]
+  queues_arn  = "${module.dlq.arn}"
 }
 
 module "stream_policy" {
