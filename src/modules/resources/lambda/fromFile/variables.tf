@@ -56,7 +56,3 @@ variable "tags" {
   type    = "map"
   default = {}
 }
-
-variable "fileSpecified" {
-  default = 1
-}

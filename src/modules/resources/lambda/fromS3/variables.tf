@@ -62,6 +62,3 @@ variable "tags" {
   default = {}
 }
 
-variable "fileSpecified" {
-  default = 1
-}

@@ -1,5 +1,4 @@
 module "fromS3" {
-  fileSpecified             = "${var.filepath == "" ? 1 : 0}"
   source                    = "../../../resources/lambda/fromS3"
   name                      = "${var.name}"
   description               = "${var.description}"
@@ -16,7 +15,6 @@ module "fromS3" {
 }
 
 module "fromFile" {
-  fileSpecified             = "${var.filepath != "" ? 1 : 0}"
   source                    = "../../../resources/lambda/fromFile"
   name                      = "${var.name}"
   description               = "${var.description}"
