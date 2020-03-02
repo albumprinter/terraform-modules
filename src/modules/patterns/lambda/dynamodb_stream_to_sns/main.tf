@@ -1,8 +1,3 @@
-locals {
-  sourceFile = "${path.module}/index.js"
-  adapterArtifactPath = "${path.cwd}/publish/package.zip"
-}
-
 module "dlq" {
   source                    = "../../../resources/sqs/plain"
   name                      = "${var.name}-${var.dlq_suffix}"
@@ -44,16 +39,10 @@ resource "aws_iam_role_policy_attachment" "dynamodb_policy_attachment" {
   policy_arn = module.stream_policy.arn
 }
 
-data "archive_file" "zip" {
-  type        = "zip"
-  source_file = local.sourceFile
-  output_path = local.adapterArtifactPath
-}
-
 module "app" {
   source       = "../with_error_alerts"
   name         = var.name
-  filepath     = local.adapterArtifactPath
+  filepath     = "${path.module}/package.zip"
   handler      = "index.handler"
   runtime      = "nodejs10.x"
   emails       = var.emails
@@ -65,16 +54,25 @@ module "app" {
   max_concurrent_executions = var.max_concurrent_executions
 
   variables = {
-    SUBJECT   = var.subject
     TOPIC_ARN = var.topic_arn
-    DLQ_URL   = module.dlq.id
   }
 }
 
 resource "aws_lambda_event_source_mapping" "app" {
-  function_name     = module.app.lambda_arn
   event_source_arn  = var.event_source_arn
-  batch_size        = var.batch_size
+  function_name     = module.app.lambda_arn
   starting_position = "TRIM_HORIZON"
+
+  batch_size             = var.batch_size
+  parallelization_factor = var.parallelization_factor
+  maximum_retry_attempts = var.maximum_retry_attempts
+
+  bisect_batch_on_function_error = var.bisect_batch_on_function_error
+
+  destination_config = {
+    on_failure = {
+      destination_arn = module.dlq.arn
+    }
+  }
 }
 

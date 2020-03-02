@@ -1,0 +1,6 @@
+- Module contains handler for DynamoDB stream event.
+- Handler sends batch message as is to SNS.
+- Handler code served as zipped file.
+- We do not zip file on-fly because of performance.
+- Source code also duplicated in raw ("index.js") for version tracking reasons.
+- Please do not forget to update zip file when handler sources code updated
