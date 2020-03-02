@@ -69,8 +69,8 @@ resource "aws_lambda_event_source_mapping" "app" {
 
   bisect_batch_on_function_error = var.bisect_batch_on_function_error
 
-  destination_config = {
-    on_failure = {
+  destination_config {
+    on_failure {
       destination_arn = module.dlq.arn
     }
   }
