@@ -48,7 +48,7 @@ module "app" {
   emails       = var.emails
   description  = var.description
   tags         = var.tags
-  memory_size  = 512
+  memory_size  = 256
   alert_period = var.alert_period
 
   max_concurrent_executions = var.max_concurrent_executions
