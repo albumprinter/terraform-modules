@@ -1,3 +1,8 @@
+locals {
+  sourceFile          = "${path.module}/index.js"
+  adapterArtifactPath = "${path.cwd}/publish/package.zip"
+}
+
 module "dlq" {
   source                    = "../../../resources/sqs/plain"
   name                      = "${var.name}-${var.dlq_suffix}"
@@ -39,10 +44,16 @@ resource "aws_iam_role_policy_attachment" "dynamodb_policy_attachment" {
   policy_arn = module.stream_policy.arn
 }
 
+data "archive_file" "zip" {
+  type        = "zip"
+  source_file = local.sourceFile
+  output_path = local.adapterArtifactPath
+}
+
 module "app" {
   source       = "../with_error_alerts"
   name         = var.name
-  filepath     = "${path.module}/package.zip"
+  filepath     = local.adapterArtifactPath
   handler      = "index.handler"
   runtime      = "nodejs10.x"
   emails       = var.emails
