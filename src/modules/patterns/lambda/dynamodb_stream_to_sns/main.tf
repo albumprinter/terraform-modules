@@ -63,6 +63,8 @@ resource "aws_lambda_event_source_mapping" "app" {
   function_name     = module.app.lambda_arn
   starting_position = "TRIM_HORIZON"
 
+  maximum_record_age_in_seconds = 604800 # maximum
+
   batch_size             = var.batch_size
   parallelization_factor = var.parallelization_factor
   maximum_retry_attempts = var.maximum_retry_attempts
