@@ -25,10 +25,19 @@ function createSnsMessage(event) {
   }
 }
 
-exports.handler = async function(event) {
+exports.handler = function(event, _context, callback) {
   console.log("Batch size is " + event.Records.length)
 
-  const snsMessage = createSnsMessage(event)
+  event.Records.forEach(function(record) {
+    const snsMessage = createSnsMessage(record)
+    sns.publish(snsMessage, function(error) {
+      if (error) {
+        console.log("SNS publish failed due to %s; record size is %s", error, record.dynamodb.SizeBytes)
+        callback(error, "failed")
+        break
+      }
+    })
+  })
 
-  return sns.publish(snsMessage).promise()
+  callback(null, "done")
 }
