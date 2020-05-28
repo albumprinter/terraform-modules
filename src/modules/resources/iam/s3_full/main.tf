@@ -17,4 +17,3 @@ resource "aws_iam_policy" "app" {
   description = "Grant full access to specific S3 bucket"
   policy      = data.aws_iam_policy_document.app.json
 }
-
