@@ -1,17 +1,8 @@
-provider "aws" {
-  alias  = "us-east-1"
-  region = "us-east-1"
-}
-
 module "certificate" {
   source      = "../../acm_certificate/with_validation"
   zone_id     = var.zone_id
   domain_name = var.domain
   tags        = var.tags
-
-  providers = {
-    aws = aws.us-east-1
-  }
 }
 
 resource "aws_api_gateway_rest_api" "app" {
@@ -95,4 +86,3 @@ resource "aws_api_gateway_base_path_mapping" "app" {
   stage_name  = aws_api_gateway_deployment.app.stage_name
   domain_name = aws_api_gateway_domain_name.app.domain_name
 }
-
