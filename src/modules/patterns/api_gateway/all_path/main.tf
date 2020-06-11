@@ -3,6 +3,10 @@ module "certificate" {
   zone_id     = var.zone_id
   domain_name = var.domain
   tags        = var.tags
+
+  providers = {
+    aws = aws.us-east-1
+  }
 }
 
 resource "aws_api_gateway_rest_api" "app" {

@@ -45,4 +45,3 @@ resource "aws_lambda_permission" "app" {
   # within the API Gateway "REST API".
   source_arn = "${module.api.execution_arn}/*/*/*"
 }
-
