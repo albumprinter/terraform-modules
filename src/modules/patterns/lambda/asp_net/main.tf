@@ -20,6 +20,10 @@ module "lambda" {
   max_concurrent_executions = var.max_concurrent_executions
 
   tags = var.tags
+
+  providers = {
+    aws = aws
+  }
 }
 
 module "api" {
@@ -31,6 +35,11 @@ module "api" {
   lambda_invoke_arn = module.lambda.lambda_invoke_arn
 
   tags = var.tags
+
+  providers = {
+    aws = aws
+    aws.us-east-1 = aws.us-east-1
+  }
 }
 
 resource "aws_lambda_permission" "app" {
