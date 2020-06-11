@@ -2,13 +2,10 @@ terraform {
   required_version = ">= 0.12"
 }
 
-provider "aws" {
-  region = "eu-west-1"
-}
+provider "aws" {}
 
 provider "aws" {
   alias  = "us-east-1"
-  region = "us-east-1"
 }
 
 module "lambda" {

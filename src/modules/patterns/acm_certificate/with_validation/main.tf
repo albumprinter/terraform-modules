@@ -1,3 +1,5 @@
+provider "aws" {}
+
 resource "aws_acm_certificate" "app" {
   domain_name       = var.domain_name
   validation_method = "DNS"
