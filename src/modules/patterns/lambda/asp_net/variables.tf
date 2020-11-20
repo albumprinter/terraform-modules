@@ -70,3 +70,14 @@ variable "vpc_config" {
   type        = map
   default     = null
 }
+
+variable "enable_swagger_key"{
+  type = bool
+  default = false
+}
+
+variable "swagger_api_key" {
+  description = "Swagger API Key for the Lambda function"
+  type = string
+}
+
