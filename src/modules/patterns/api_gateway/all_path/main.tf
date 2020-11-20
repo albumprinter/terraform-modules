@@ -108,23 +108,23 @@ resource "aws_api_gateway_base_path_mapping" "app" {
 
 /*Swagger key*/
 resource "aws_api_gateway_resource" "app_public_swagger" {
-  count = "${var.enable_swagger_key == true ? 1 : 0}"
+  count = var.enable_swagger_key == true ? 1 : 0
   rest_api_id = aws_api_gateway_rest_api.app.id
   parent_id   = aws_api_gateway_rest_api.app.root_resource_id
   path_part   = "swagger"
 }
 
 resource "aws_api_gateway_method" "app_public_swagger" {
-  count = "${var.enable_swagger_key == true ? 1 : 0}"
+  count = var.enable_swagger_key == true ? 1 : 0
   rest_api_id   = aws_api_gateway_rest_api.app.id
-  resource_id   = aws_api_gateway_resource.app_public_swagger.id
+  resource_id   = aws_api_gateway_resource.app_public_swagger[count.index].id
   http_method   = "ANY"
   authorization = "NONE"
   api_key_required = true
 }
 
 resource "aws_api_gateway_integration" "app_public_swagger" {
-  count = "${var.enable_swagger_key == true ? 1 : 0}"
+  count = var.enable_swagger_key == true ? 1 : 0
   rest_api_id = aws_api_gateway_rest_api.app.id
   resource_id = aws_api_gateway_method.app_public_swagger.resource_id
   http_method = aws_api_gateway_method.app_public_swagger.http_method
@@ -135,13 +135,13 @@ resource "aws_api_gateway_integration" "app_public_swagger" {
 }
 
 resource "aws_api_gateway_api_key" "swagger" {
-  count = "${var.enable_swagger_key == true ? 1 : 0}"
+  count = var.enable_swagger_key == true ? 1 : 0
   name = "backoffice-api_swagger"
   value = var.swagger_api_key
 }
 
 resource "aws_api_gateway_usage_plan" "swagger" {
-  count = "${var.enable_swagger_key == true ? 1 : 0}"
+  count = var.enable_swagger_key == true ? 1 : 0
   name = "backoffice-api_swagger"
 
   api_stages {
@@ -151,8 +151,8 @@ resource "aws_api_gateway_usage_plan" "swagger" {
 }
 
 resource "aws_api_gateway_usage_plan_key" "swagger" {
-  count = "${var.enable_swagger_key == true ? 1 : 0}"
-  key_id        = aws_api_gateway_api_key.swagger.id
+  count = var.enable_swagger_key == true ? 1 : 0
+  key_id        = aws_api_gateway_api_key.swagger[count.index].id
   key_type      = "API_KEY"
-  usage_plan_id = aws_api_gateway_usage_plan.swagger.id
+  usage_plan_id = aws_api_gateway_usage_plan.swagger[count.index].id
 }
