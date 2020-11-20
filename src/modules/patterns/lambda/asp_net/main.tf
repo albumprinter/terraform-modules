@@ -42,7 +42,7 @@ module "api" {
   zone_id           = var.zone_id
   domain            = var.domain
   lambda_invoke_arn = module.lambda.lambda_invoke_arn
-  enable_api_key    = var.enable_api_key
+  enable_swagger_key= var.enable_swagger_key
   swagger_api_key   = var.swagger_api_key
 
   tags = var.tags
