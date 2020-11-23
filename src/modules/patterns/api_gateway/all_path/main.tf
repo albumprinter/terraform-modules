@@ -111,13 +111,20 @@ resource "aws_api_gateway_resource" "app_public_swagger" {
   count = var.enable_swagger_key == true ? 1 : 0
   rest_api_id = aws_api_gateway_rest_api.app.id
   parent_id   = aws_api_gateway_rest_api.app.root_resource_id
-  path_part   = "swagger/{proxy+}"
+  path_part   = "swagger"
+}
+
+resource "aws_api_gateway_resource" "app_public_swagger_proxy" {
+  count = var.enable_swagger_key == true ? 1 : 0
+  rest_api_id = aws_api_gateway_rest_api.app.id
+  parent_id   = aws_api_gateway_resource.app_public_swagger[count.index].id
+  path_part   = "{proxy+}"
 }
 
 resource "aws_api_gateway_method" "app_public_swagger" {
   count = var.enable_swagger_key == true ? 1 : 0
   rest_api_id   = aws_api_gateway_rest_api.app.id
-  resource_id   = aws_api_gateway_resource.app_public_swagger[count.index].id
+  resource_id   = aws_api_gateway_resource.app_public_swagger_proxy[count.index].id
   http_method   = "ANY"
   authorization = "NONE"
   api_key_required = true
@@ -126,8 +133,8 @@ resource "aws_api_gateway_method" "app_public_swagger" {
 resource "aws_api_gateway_integration" "app_public_swagger" {
   count = var.enable_swagger_key == true ? 1 : 0
   rest_api_id = aws_api_gateway_rest_api.app.id
-  resource_id = aws_api_gateway_method.app_public_swagger[count.index].resource_id
-  http_method = aws_api_gateway_method.app_public_swagger[count.index].http_method
+  resource_id = aws_api_gateway_method.app_public_swagger_proxy[count.index].resource_id
+  http_method = aws_api_gateway_method.app_public_swagger_proxy[count.index].http_method
 
   integration_http_method = "ANY"
   type                    = "AWS_PROXY"
