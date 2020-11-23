@@ -92,6 +92,7 @@ resource "aws_api_gateway_deployment" "app" {
   depends_on = [
     aws_api_gateway_integration.app_public,
     aws_api_gateway_integration.app_public_root,
+    aws_api_gateway_integration.app_public_swagger_proxy
   ]
 
   rest_api_id = aws_api_gateway_rest_api.app.id
