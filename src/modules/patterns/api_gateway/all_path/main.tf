@@ -126,8 +126,8 @@ resource "aws_api_gateway_method" "app_public_swagger" {
 resource "aws_api_gateway_integration" "app_public_swagger" {
   count = var.enable_swagger_key == true ? 1 : 0
   rest_api_id = aws_api_gateway_rest_api.app.id
-  resource_id = aws_api_gateway_method.app_public_swagger.resource_id
-  http_method = aws_api_gateway_method.app_public_swagger.http_method
+  resource_id = aws_api_gateway_method.app_public_swagger[count.index].resource_id
+  http_method = aws_api_gateway_method.app_public_swagger[count.index].http_method
 
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
