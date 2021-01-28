@@ -23,3 +23,7 @@ output "dlq_url" {
   description = "The URL for the created DLQ SQS queue."
 }
 
+output "dlq_name" {
+  value       = module.queue.dlq_name
+  description = "The name for the created DLQ SQS queue."
+}

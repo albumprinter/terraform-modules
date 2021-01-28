@@ -18,3 +18,7 @@ output "dlq_arn" {
   description = "The ARN of the DLQ SQS queue"
 }
 
+output "dlq_name" {
+  value       = module.dlq.name
+  description = "The name of the DLQ SQS queue"
+}
