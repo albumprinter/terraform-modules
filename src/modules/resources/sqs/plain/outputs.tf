@@ -7,3 +7,8 @@ output "arn" {
   value       = aws_sqs_queue.queue.arn
   description = "The ARN of the SQS queue"
 }
+
+output "name" {
+  value       = var.name
+  description = "The name for the created Amazon SQS queue."
+}

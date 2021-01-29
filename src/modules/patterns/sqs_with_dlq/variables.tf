@@ -44,3 +44,10 @@ variable "dlq_suffix" {
   default     = "-ERROR"
   description = "The dead letter queue name suffix"
 }
+
+variable "alarm_action_arn" {
+  default = ""
+}
+variable "enable_cloudwatch_alarms" {
+  default = 0
+}
