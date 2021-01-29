@@ -14,6 +14,8 @@ module "queue" {
   max_receive_count          = var.max_receive_count
   policy                     = var.policy
   tags                       = var.tags
+  alarm_action_arn           = var.alarm_action_arn
+  enable_cloudwatch_alarms   = var.enable_cloudwatch_alarms
 }
 
 module "topic" {

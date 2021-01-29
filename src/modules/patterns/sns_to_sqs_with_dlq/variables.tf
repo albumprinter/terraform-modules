@@ -49,3 +49,10 @@ variable "raw_message_delivery" {
   default     = true
   description = "Boolean indicating whether or not to enable raw message delivery (the original message is directly passed, not wrapped in JSON with the original message in the message property)."
 }
+
+variable "alarm_action_arn" {
+  default = ""
+}
+variable "enable_cloudwatch_alarms" {
+  default = 0
+}
