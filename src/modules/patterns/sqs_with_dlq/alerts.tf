@@ -9,7 +9,7 @@ resource "aws_cloudwatch_metric_alarm" "stale_messages_alarm" {
   threshold           = "3600" // 1 hour
   datapoints_to_alarm = "1"
   alarm_actions       = ["${var.alarm_action_arn}"]
-  count               = "${var.enable_cloudwatch_alarms}"
+  count               = var.enable_cloudwatch_alarms
   dimensions = {
     QueueName = "${module.queue.name}"
   }
@@ -29,7 +29,7 @@ resource "aws_cloudwatch_metric_alarm" "error_messages_alarm_1" {
   treat_missing_data  = "notBreaching"
   datapoints_to_alarm = "1"
   alarm_actions       = ["${var.alarm_action_arn}"]
-  count               = "${var.enable_cloudwatch_alarms}"
+  count               = var.enable_cloudwatch_alarms
   dimensions = {
     QueueName = "${module.dlq.name}"
   }
@@ -48,7 +48,7 @@ resource "aws_cloudwatch_metric_alarm" "error_messages_alarm_2" {
   treat_missing_data  = "notBreaching"
   datapoints_to_alarm = "1"
   alarm_actions       = ["${var.alarm_action_arn}"]
-  count               = "${var.enable_cloudwatch_alarms}"
+  count               = var.enable_cloudwatch_alarms
   dimensions = {
     QueueName = "${module.dlq.name}"
   }
