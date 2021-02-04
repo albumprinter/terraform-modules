@@ -66,3 +66,9 @@ variable "vpc_config" {
   type        = map
   default     = null
 }
+
+variable "event_names" {
+  default     = ["INSERT", "MODIFY", "REMOVE"]
+  type        = list(string)
+  description = "(Optional) Publish only for these events."
+}

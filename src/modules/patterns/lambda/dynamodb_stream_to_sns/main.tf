@@ -71,6 +71,7 @@ module "app" {
 
   variables = {
     TOPIC_ARN = var.topic_arn
+    EVENT_NAMES = var.event_names
   }
 }
 
