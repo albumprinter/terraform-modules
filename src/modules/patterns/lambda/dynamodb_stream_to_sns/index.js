@@ -32,7 +32,7 @@ exports.handler = function(event, _context, callback) {
   try {
     for (let index = 0; index < event.Records.length; ++index) {
       const record = event.Records[index]
-      if (!EVENT_NAMES.includes(record.eventName)) {
+      if (!EVENT_NAMES.split(',').includes(record.eventName)) {
         continue;
       }
       const snsMessage = createSnsMessage(record)

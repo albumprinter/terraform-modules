@@ -68,7 +68,7 @@ variable "vpc_config" {
 }
 
 variable "event_names" {
-  default     = ["INSERT", "MODIFY", "REMOVE"]
-  type        = list(string)
+  default     = "INSERT,MODIFY,REMOVE"
+  type        = string
   description = "(Optional) Publish only for these events."
 }
