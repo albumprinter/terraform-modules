@@ -1,4 +1,5 @@
 const TOPIC_ARN = process.env.TOPIC_ARN
+const EVENT_NAMES = process.env.EVENT_NAMES
 
 const aws = require("aws-sdk")
 const sns = new aws.SNS()
@@ -31,6 +32,9 @@ exports.handler = function(event, _context, callback) {
   try {
     for (let index = 0; index < event.Records.length; ++index) {
       const record = event.Records[index]
+      if (!EVENT_NAMES.split(',').includes(record.eventName)) {
+        continue;
+      }
       const snsMessage = createSnsMessage(record)
 
       sns.publish(snsMessage, function(error) {
