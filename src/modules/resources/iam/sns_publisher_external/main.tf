@@ -35,6 +35,7 @@ data "aws_iam_policy_document" "app" {
     resources = [var.sns_arn]
 
     actions = [
+      "sns:Subscribe",
       "sns:Publish",
     ]
 
